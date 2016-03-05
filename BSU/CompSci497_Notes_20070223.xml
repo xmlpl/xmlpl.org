@@ -1,0 +1,113 @@
+<html>
+  <head>
+    <style type="text/css" media="all">
+      h1 {text-align: center; font-size: 22pt}
+      h2 {font-size: 14pt}
+      h3 {font-size: 12pt}
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <title>CompSci497 Lecture Notes February 23rd, 2007</title>
+  </head>
+  <body>
+    <h1>
+      CompSci497<br/>
+      Advanced XML Programming with XmlPL<br/>
+      Lecture Notes<br/>
+      Friday, February 23rd, 2007
+    </h1>
+
+    <br/><br/>
+    <contents/>
+
+    <section name="Features of XmlPL">
+      <section name="Declarations">
+        <section name="package">
+          <ul>
+            <li>id</li>
+            <li>version</li>
+						<li>library installation requirements</li>
+          </ul>
+        </section>
+        <section name="import">
+          <ul>
+            <li>library id</li>
+            <li>version expression</li>
+            <li>renaming</li>
+            <li>using different versions of the same library</li>
+          </ul>
+        </section>
+        <section name="functions">
+          <ul>
+            <li>Arguments</li>
+            <ul>
+              <li>Pass by value, pass by reference</li>
+              <li>constant</li>
+            </ul>
+            <li>Overloading</li>
+            <li>Forward Declaration</li>
+          </ul>
+        </section>
+        <section name="variables">
+          <ul>
+            <li>local</li>
+            <li>global</li>
+            <li>constant</li>
+          </ul>
+        </section>
+      </section>
+      <section name="Statements">
+        <section name="Loops: While, Foreach and For">
+          <ul>
+            <li>while and for as usual</li>
+            <li>When foreach is more efficient</li>
+          </ul>
+        </section>
+        <section name="Switch and Case">
+          <ul>
+            <li>integer</li>
+            <li>string: efficient binary search</li>
+          </ul>
+        </section>
+        <section name="Throw, Try and Catch">
+          <ul>
+            <li>the exception type</li>
+            <li>catch context variable</li>
+          </ul>
+        </section>
+        <section name="Append">
+          <ul>
+            <li>output streams</li>
+            <li>disabling append</li>
+            <li>assignment &amp; increment</li>
+          </ul>
+        </section>
+        <section name="Redirect">
+          <ul>
+            <li>output stream type</li>
+            <li>opening output streams: openStringStream et.al.</li>
+            <li>append statement redirection</li>
+          </ul>
+        </section>
+      </section>
+      <section name="Types">
+        <ul>
+          <li>Basic types: boolean, integer, real, string, exception, prefix,
+				qname</li>
+          <li>void</li>
+          <li>XML types: node, attribute, comment, document, element, pi,
+				text</li>
+          <li>Generics: [], ++, &lt;&lt;</li>
+        </ul>
+      </section>
+      <section name="Expressions">
+        <ul>
+          <li>sequence expressions</li>
+          <li>cast</li>
+          <li>release</li>
+          <li>null</li>
+        </ul>
+      </section>
+    </section>
+    <section name="Discuss Projects"/>
+  </body>
+</html>

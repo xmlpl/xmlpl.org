@@ -1,0 +1,16 @@
+<addressbook>
+  <address firstname="Clark" lastname="Kent">
+    <street>344 Clinton St., Apt. 3B</street>
+    <city>Metropolis</city>
+  </address>
+
+  <address firstname="Sherlock" lastname="Holmes">
+    <street>221B Baker Street</street>
+    <city>London</city>
+  </address>
+
+  <address firstname="Homer" lastname="Simpson">
+    <street>742 Evergreen Terrace</street>
+    <city>Springfield</city>
+  </address>
+</addressbook>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<body xmlns:ws="http://www.xmlpl.org/website">
+  <h2>CompSci497: Advanced XML Programming in XmlPL</h2>
+
+	<p>
+	  This is the home page for CompSci497 a course offered through
+		<a href="http://coen.boisestate.edu/cs/">Boise State University's
+		Department of Computer Science</a>.  Here you will find information
+		about the course and student programming projects as they become
+		available.
+	</p>
+
+	<ul>
+	  <li><a href="CompSci497/CompSci497-Spring-2007-Syllabus.html">Spring 2007
+    Syllabus</a></li>
+  </ul>
+
+	<h3>Lecture Notes</h3>
+	<ul>
+	  <li><a href="CompSci497/CompSci497_Notes_20070119.html">
+		Friday, January 19th, 2007</a></li>
+	  <li><a href="CompSci497/CompSci497_Notes_20070126.html">
+		Friday, January 26th, 2007</a></li>
+	  <li><a href="CompSci497/CompSci497_Notes_20070202.html">
+		Friday, Febuary 2nd, 2007</a></li>
+	  <li><a href="CompSci497/CompSci497_Notes_20070209.html">
+		Friday, Febuary 9th, 2007</a></li>
+	  <li><a href="CompSci497/CompSci497_Notes_20070223.html">
+		Friday, Febuary 23rd, 2007</a></li>
+	  <li><a href="CompSci497/CompSci497_Notes_20070302.html">
+		Friday, March 2nd, 2007</a></li>
+	  <li><a href="CompSci497/CompSci497_Notes_20070309.html">
+		Friday, March 9th, 2007</a></li>
+	</ul>
+</body>

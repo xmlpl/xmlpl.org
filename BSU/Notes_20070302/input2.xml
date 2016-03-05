@@ -1,0 +1,12 @@
+<doc>
+  <table-of-contents/>
+  <section name="Introduction">
+    <h2><hello/></h2>
+    <p>Some Text</p>
+  </section>
+  <section name="Middle"/>
+  <section name="Point 1"/>
+  <section name="Point 2"/>
+  <section name="Point 3"/>
+  <section name="Conclusion"/>
+</doc>

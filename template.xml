@@ -1,0 +1,52 @@
+<html xmlns:xi="http://www.w3.org/2001/XInclude"
+  xmlns:ws="http://www.xmlpl.org/website">
+  <head><ws:head/></head>
+  <body>
+    <div id="page">
+      <ws:part name="header"/>
+      
+      <div id="menu">
+        <ws:menu-template>
+          <menu><ws:section-menu/></menu>
+          <xi:include href="button.xml"/>
+        </ws:menu-template>
+
+      <div id="image-menu">
+        <a href="http://sf.net/projects/xmlpl/">
+          <img src="http://sflogo.sf.net/sflogo.php?group_id=164952&amp;type=4"
+            width="125" height="37" border="0" alt="SourceForge.net Logo"/></a>
+        <a href="http://sourceforge.net/donate/index.php?group_id=164952">
+          <img src="http://images.sourceforge.net/images/project-support.jpg"
+            width="88" height="32" border="0" alt="Support This Project" /></a>
+      </div>
+      </div>
+
+      <div id="section">
+        <ws:div-border class="section">
+          <div id="minheight"> </div>
+
+          <div id="submenu">
+            <ws:menu-template>
+              <menu><ws:section-submenu/></menu>
+              <xi:include href="button.xml"/>
+            </ws:menu-template>
+          </div>
+
+          <a href="#" title="Print this page" onclick="
+            if (window.print) window.print();
+	    else alert('Print button does not work in your browser');"
+            class="print"><div> </div></a>
+
+          <ws:section-part name="header"/>
+          <ws:section-part name="body"/>
+          <ws:section-part name="footer"/>
+
+          <div id="minheight-clear"> </div>
+          &#160;
+        </ws:div-border>
+      </div>
+
+      <ws:part name="footer"/>
+    </div>
+  </body>
+</html>

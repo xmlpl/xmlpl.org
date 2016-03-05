@@ -1,0 +1,12 @@
+<cmd:doc xmlns:cmd="http://www.xmlpl.org/command">
+  <cmd:table-of-contents/>
+  <cmd:section name="Introduction">
+    <h2><cmd:hello/></h2>
+    <p>Some Text</p>
+  </cmd:section>
+  <cmd:section name="Middle"/>
+  <cmd:section name="Point 1"/>
+  <cmd:section name="Point 2"/>
+  <cmd:section name="Point 3"/>
+  <cmd:section name="Conclusion"/>
+</cmd:doc>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ws:dir name="http"
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  xmlns:ws="http://www.xmlpl.org/website">
+
+  <ws:set name="top" value="."/>
+
+  <ws:dir name="styles">
+    <ws:style web="style.css" print="print.css">
+      <xi:include href="style.xml" children="true"/>
+    </ws:style>
+  </ws:dir>
+
+  <ws:website>
+    <style web="${top}/styles/style.css" print="${top}/styles/print.css"/>
+
+    <template>
+      <xi:include href="template.xml"/>
+    </template>
+
+    <title>
+      XmlPL - The XML Processing Language
+    </title>
+
+    <header>
+      <div class="name">
+        XmlPL<br/>
+        The <a href="http://en.wikipedia.org/wiki/Xml">XML</a>
+        Processing Language
+      </div>
+      <div class="release">
+        <a href="http://sf.net/project/showfiles.php?group_id=164952">Download
+				Latest Release: 0.1.3 Alpha</a>
+      </div>
+    </header>
+
+    <footer>
+      <div class="updated">
+        Last updated: <ws:today/>
+      </div>
+      <div class="copyright">
+        Copyright (C) 2006,
+        <a class="cd" href="http://www.cauldrondevelopment.com/">
+          Cauldron Development LLC
+        </a>
+        <br/>
+        <br/>
+      </div>
+    </footer>
+
+    <sections>
+      <ws:section name="about">
+        <title value="About"/>
+        <xi:include href="about.xml"/>
+      </ws:section>
+
+      <ws:section name="download">    
+        <title value="Download"/>
+				<xi:include href="download.xml"/>
+      </ws:section>
+
+      <ws:section name="documentation">
+        <title value="Docs"/>
+
+        <ws:section name="doc-overview">
+          <title value="Overview"/>
+          <xi:include href="doc-overview.xml"/>
+        </ws:section>
+
+        <ws:section name="install">
+          <title value="Install"/>
+          <xi:include href="install.xml"/>
+        </ws:section>
+
+        <ws:section name="debian_install">
+          <title value="Debian Install"/>
+          <xi:include href="debian_install.xml"/>
+        </ws:section>
+
+        <ws:section name="subversion">
+          <title value="Subversion"/>
+          <xi:include href="subversion.xml"/>
+        </ws:section>
+
+        <ws:section name="lang-spec">
+          <title value="Language Specification"/>
+          <xi:include href="lang-spec.xml"/>
+        </ws:section>
+
+        <ws:section name="api">
+          <title value="API"/>
+          <xi:include href="api.xml"/>
+        </ws:section>
+      </ws:section>
+
+
+      <ws:section name="examples">
+        <title value="Examples"/>
+
+        <ws:section name="examples-overview">
+          <title value="Overview"/>
+          <xi:include href="examples.xml"/>
+        </ws:section>
+
+        <ws:section name="hello">
+          <title value="Hello World!, Classic"/>
+          <xi:include href="hello.xml"/>
+        </ws:section>          
+
+        <ws:section name="hello_web">
+          <title value="Hello World!, Web Page"/>
+          <xi:include href="hello_web.xml"/>
+        </ws:section>
+
+        <ws:section name="query">
+          <title value="A Simple Query"/>
+          <xi:include href="query.xml"/>
+        </ws:section>          
+
+        <ws:section name="webdoc">
+          <title value="Web Document Processor"/>
+          <xi:include href="webdoc.xml"/>
+        </ws:section>          
+      </ws:section>
+
+
+      <ws:section name="licensing">
+        <title value="Licensing"/>
+
+        <ws:section name="licensing-overview">
+          <title value="Overview"/>
+          <xi:include href="licensing-overview.xml"/>
+        </ws:section>
+
+        <ws:section name="gpl">
+          <title value="GPL"/>
+          <xi:include href="gpl.xml"/>
+        </ws:section>
+      </ws:section>
+     
+     <ws:section name="bugs">        
+       <title value="Bugs"
+         href="http://sf.net/tracker/?group_id=164952&amp;atid=833754"/>
+     </ws:section>
+
+     <ws:section name="Presentations">
+  		 <title value="Classes"/>
+       <xi:include href="presentations.xml"/>
+
+       <ws:section name="CompSci497">
+  		   <title value="CS497"/>
+         <xi:include href="compsci497.xml"/>
+	  	 </ws:section>
+       <ws:section name="BoiseCodeCamp">
+  		   <title value="Boise Code Camp"
+				   href="BoiseCodeCamp2007/presentation.html"/>
+	  	 </ws:section>
+     </ws:section>
+
+     <ws:section name="links">
+        <title value="Links"/>
+        <xi:include href="links.xml"/>
+      </ws:section>
+
+      <ws:section name="contact">
+        <title value="Contact"/>
+        <xi:include href="contact.xml"/>
+      </ws:section>
+
+    </sections>
+  </ws:website>
+
+  <ws:page filename="implicit_type_coersion.html">
+    <xi:include href="implicit_type_coersion.xml"/>
+  </ws:page>
+</ws:dir>

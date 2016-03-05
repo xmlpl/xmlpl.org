@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <style type="text/css" media="all">
+      h1 {text-align: center; font-size: 22pt}
+      h2 {font-size: 14pt}
+      h3 {font-size: 12pt}
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <title>CompSci497 Lecture Notes March 9th, 2007</title>
+  </head>
+  <body>
+    <h1>
+      CompSci497<br/>
+      Advanced XML Programming with XmlPL<br/>
+      Lecture Notes<br/>
+      Friday, March 9th, 2007
+    </h1>
+
+    <br/><br/>
+    <contents/>
+
+    <section name="Features of XmlPL Continued">
+      <section name="Expressions">
+        <ul>
+          <li>sequence expressions: symantics, ,=</li>
+          <li>cast: implicit, explicit</li>
+          <li>release
+					  <ul>
+						  <li>Memory management and garbage collection</li>
+							<li>On the fly processing</li>
+						</ul>
+					</li>
+          <li>null
+					  <ul>
+							<li>Every type has a null expression</li>
+						  <li>null == false</li>
+						</ul>
+					</li>
+        </ul>
+      </section>
+      <section name="Idioms">
+        <ul>
+          <li>search and replace
+					<a href="Notes_20070302/search_and_replace.xpl">(code)</a>
+					<a href="Notes_20070302/input.xml">(input)</a>
+					</li>
+					<li>dispatching on element name
+					<a href="Notes_20070302/element_dispatch.xpl">(code)</a>
+					<a href="Notes_20070302/input2.xml">(input)</a>
+					</li>
+					<li>using a special namespace
+					<a href="Notes_20070302/ns_element_dispatch.xpl">(code)</a>
+					<a href="Notes_20070302/input3.xml">(input)</a>
+					</li>
+        </ul>
+      </section>
+    </section>
+    <section name="What's in the standard lib?">
+		  <ul>
+		    <li>curl</li>
+			  <li>gen</li>
+		  	<li>math</li>
+	  		<li>process</li>
+  			<li>stdio</li>
+  			<li>stdlib</li>
+  			<li>string</li>
+  			<li>unistd</li>
+  			<li>xml</li>
+  		</ul>
+    </section>
+    <section name="Discuss Projects"/>
+  </body>
+</html>

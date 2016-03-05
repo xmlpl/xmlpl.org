@@ -1,0 +1,344 @@
+<style xmlns:xi="http://www.w3.org/2001/XInclude"
+       xmlns:ws="http://www.xmlpl.org/website">
+
+  <ws:set name="menu.width" value="140px"/>
+  <xi:include href="colors.xml" children="true"/>
+
+  <selector name="a:link">
+    <color value="#0000ff"/>
+  </selector>
+
+  <selector name="a:visited">
+    <color value="#541a8b"/>
+  </selector>
+
+  <selector name="a:link:hover, a:visited:hover">
+    <color value="red"/>
+  </selector>
+
+  <selector name=".name">
+    <font-size value="40px"/>
+    <font-weight value="bold"/>
+    <font-family value="courier new"/>
+    <text-align value="center"/>
+    <line-height value="40px"/>
+
+    <position value="absolute"/>
+    <left value="170px"/>
+    <top value="10px"/>
+    <width value="530px"/>
+  </selector>
+
+  <selector name=".name a">
+    <text-decoration value="none"/>
+  </selector>
+
+  <selector name="body">
+    <margin value="0px 0.5em"/>
+    <width value="900px !important"/>
+    <background-color value="${colors.bg}"/>
+    <font-size value="12pt"/>
+    <font-family value="Serif, Times New Roman"/>
+  </selector>
+
+  <selector name="#page">
+    <background-image value="url(${top}/images/xmlpl_logo.png)"/>
+    <background-repeat value="no-repeat"/>
+  </selector>
+ 
+  <selector name="#header">
+    <height value="180px"/>
+  </selector>
+
+  <selector name=".release">
+    <position value="absolute"/>
+    <top value="170px"/>
+    <left value="0px"/>
+    <width value="690px"/>
+    <text-align value="right"/>
+    <font-weight value="bold"/>
+  </selector>
+
+  <selector name=".release a">
+    <text-decoration value="none"/>
+  </selector>
+
+  <selector name="#menu">
+    <width value="${menu.width}"/>
+    <border-top value="1px dashed black"/>
+    <position value="absolute"/>
+    <left value="0.5em"/>
+    <top value="256px"/>
+  </selector>
+
+  <selector name="#section">
+    <padding value="0px"/>
+    <margin-left value="150px"/>
+    <background-color value="${colors.section}"/>
+    <width value="650px !important"/>
+  </selector>
+
+  <ws:div-border-style class="section">
+    <dims left="18px" right="18px" top="18px" bottom="18px"/>
+    <images base="${top}/images/border"/>
+  </ws:div-border-style>
+
+  <selector name=".section-mm">
+    <padding value="0 5px"/>
+  </selector>
+
+  <selector name="*html #minheight-clear, *html #minheight">
+    <display value="none"/>
+  </selector>
+
+  <selector name="#minheight">
+    <float value="left"/>
+    <width value="2px"/>
+    <height value="300px"/>
+  </selector>
+  <selector name="#minheight-clear">
+    <clear value="both"/>
+  </selector>
+
+  <selector name="#footer">
+    <padding-left value="1em"/>
+    <margin-left value="${menu.width}"/>
+    <font-weight value="bold"/>
+    <font-size value="12pt"/>
+    <text-align value="center"/>
+    <width value="550px"/>
+  </selector>
+
+  <selector name=".button, .pressedButton">
+    <text-decoration value="none"/>
+  </selector>
+
+  <selector name="#menu .button div, #menu .pressedButton div">
+    <width value="100%"/>
+    <font-size value="14pt"/>
+    <font-weight value="bold"/>
+    <text-align value="center"/>
+    <padding value="5px 0px"/>
+    <border-bottom value="1px dashed black"/>
+    <border-left value="1px dashed black"/>
+    <border-right value="1px dashed black"/>
+  </selector>
+
+  <selector name=".pressedButton div">
+    <background-color value="#ccccdd"/>
+  </selector>
+  <selector name="body > #menu div">
+    <display value="block"/>
+  </selector>
+  <selector name=".button div">
+    <background-color value="#fffffe"/>
+  </selector>
+  <selector name=".button:hover div">
+    <background-color value="#eeeeff"/>
+  </selector>
+
+  <selector name="#image-menu">
+    <text-align value="center"/>
+  </selector>
+
+  <selector name="#image-menu img">
+    <margin value="7px 1px 1px 1px"/>
+  </selector>
+
+  <selector name="#image-menu a:hover img">
+    <margin value="6px 0px 0px 0px"/>
+    <border value="1px dashed black"/>
+  </selector>
+
+  <selector name="#submenu .button div, #submenu .pressedButton div">
+    <display value="inline"/>
+    <border value="1px solid #666666"/>
+    <padding value="2px"/>
+    <margin value="2px"/>
+    <line-height value="30pt"/>
+    <white-space value="nowrap"/>
+  </selector>
+
+  <selector name="#submenu">
+    <margin-bottom value="15px"/>
+    <text-align value="center"/>
+  </selector>
+
+  <selector name=".inline">
+    <padding value="0px 2px 0px 2px"/>
+  </selector>
+
+  <selector name=".code, .grammar, .inline">
+    <border value="1px solid #666666"/>
+    <background-color value="${colors.code}"/>
+  </selector>
+
+  <selector name=".code pre, .grammar, .inline">
+    <font-family value="courier new"/>
+    <font-size value="12pt"/>
+  </selector>
+
+  <selector name=".code, .grammar">
+    <padding value="0.5em"/>
+    <overflow value="auto"/>
+    <margin-bottom value="2px"/>
+  </selector>
+
+  <selector name=".code">
+    <width value="97%"/>
+  </selector>
+
+  <selector name=".keyword">
+    <color value="#009800"/>
+  </selector>
+
+  <selector name=".token">
+    <text-decoration value="none"/>
+    <border-bottom value="1px dotted #666666"/>
+    <text-transform value="capitalize"/>
+  </selector>
+
+  <selector name=".grammar a">
+    <text-decoration value="none"/>
+  </selector>
+
+
+  <selector name=".download, .print, .forward">
+    <float value="right"/>
+    <margin-top value="-5px"/>
+    <margin-right value="5px"/>
+  </selector>
+  <selector name=".download div">
+    <background-image value="url(${top}/images/save.png)"/>
+    <background-repeat value="no-repeat"/>
+    <background-position value="center"/>
+    <width value="32px"/>
+    <height value="32px"/>
+  </selector>
+  <selector name=".download:hover div">
+    <background-image value="url(${top}/images/save32.png)"/>
+  </selector>
+ 
+  <selector name=".print div">
+    <background-image value="url(${top}/images/print.png)"/>
+    <background-repeat value="no-repeat"/>
+    <background-position value="center"/>
+    <width value="32px"/>
+    <height value="32px"/>
+  </selector>
+  <selector name=".print:hover div">
+    <background-image value="url(${top}/images/print32.png)"/>
+  </selector>
+
+  <selector name=".forward div">
+    <background-image value="url(${top}/images/forward.png)"/>
+    <background-repeat value="no-repeat"/>
+    <background-position value="center"/>
+    <width value="32px"/>
+    <height value="32px"/>
+  </selector>
+  <selector name=".forward:hover div">
+    <background-image value="url(${top}/images/forward32.png)"/>
+  </selector>
+
+
+
+  <selector name=".example-html">
+    <text-align value="center"/>
+  </selector>
+
+  <selector name=".example-html object">
+   <border value="2px solid #666666"/>
+   <background-color value="${colors.section}"/>
+  </selector>
+
+  <selector name=".flux">
+    <color value="#6a0000"/>
+  </selector>
+
+  <selector name=".table">
+    <border value="1px solid black"/>
+    <text-align value="center"/>
+    <width value="500px"/>
+    <background-color value="${colors.code}"/>
+  </selector>
+
+  <selector name=".table td, .table th">
+    <border-left value="1px solid #999996"/>
+    <border-top value="1px solid #999996"/>
+    <border-right value="1px solid black"/>
+    <border-bottom value="1px solid black"/>
+    <background-color value="#ffffff"/>
+  </selector>
+
+  <selector name="pre">
+    <margin value="0.5em"/>
+  </selector>
+  
+  <selector name="h1, h2, h3">
+    <border-bottom value="1px solid black"/>
+  </selector>
+
+  <selector name="h1 a, h2 a, h3 a">
+    <text-decoration value="none"/>
+  </selector>
+
+  <selector name="h1">
+    <font-size value="18pt"/>
+  </selector>
+
+  <selector name="h2">
+    <font-size value="16pt"/>
+  </selector>
+
+  <selector name="h3">
+    <font-size value="14pt"/>
+  </selector>
+
+  <selector name="input, textarea, select">
+    <background-color value="${colors.code}"/>
+  </selector>
+
+  <selector name="input:hover, textarea:hover, select:hover">
+    <background-color value="#ffffff"/>
+  </selector>
+
+  <selector name=".cd, .cd:visited, .cd:link">
+    <font-size value="14pt"/>
+    <font-family value="Times"/>
+    <text-decoration value="none"/>
+    <color value="black"/>
+    <border-bottom value="2px solid #990000"/>
+  </selector>
+
+  <selector name=".cd:hover">
+    <border-bottom value="2px solid red"/>
+    <color value="red"/>
+  </selector>
+
+  <ws:if cond="${print}">
+    <selector name="#menu, #submenu, #header">
+      <display value="none"/>
+    </selector>
+
+    <selector name="#page">
+      <width value="auto"/>
+    </selector>
+
+    <selector name="div">
+      <background-image value="none"/>
+    </selector>
+
+    <selector name="#section">
+      <margin value="0"/>
+    </selector>
+
+    <selector name=":visited">
+      <color value="#0000ff"/>
+    </selector>
+
+    <selector name=".cd:visited">
+      <color value="black"/>
+    </selector>
+  </ws:if>
+</style>

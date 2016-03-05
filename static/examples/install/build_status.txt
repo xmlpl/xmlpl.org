@@ -1,0 +1,9 @@
+./build.sh status
+***************************** XmlPL Build Status ******************************
+libbasicutils: done
+libantlr: done
+libxmlpl_cpp_runtime: done
+xmlplcc: configured
+libxmlpl_cpp_standard: not started
+xmlpl: not started
+********************************************************************************

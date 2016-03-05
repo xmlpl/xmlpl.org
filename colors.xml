@@ -1,0 +1,5 @@
+<colors xmlns:ws="http://www.xmlpl.org/website">
+  <ws:set name="colors.bg" value="#8aa7cd"/>
+  <ws:set name="colors.section" value="#ffffff"/>
+  <ws:set name="colors.code" value="#eeeee6"/>
+</colors>

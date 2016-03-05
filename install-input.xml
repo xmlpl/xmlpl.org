@@ -1,0 +1,279 @@
+<section
+  xmlns:ws="http://www.xmlpl.org/website"
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  name="XmlPL compiler build and install instructions">
+
+	<section name="To Build or Not To Build">
+	  <p>
+		  If you are running a <a href="http://www.debian.org/">Debian</a>
+			based operating system (i.e. using apt-get) you may want to follow
+			the instructions on the <ws:link sec="download"/> page for using our
+			Debian package repository.  Otherwise, follow the directions below
+			for building the software from source.
+		</p>
+	</section>
+
+  <section name="Quick Start">
+    <p>
+      These are the quick and dirty instructions.  If you have problems read
+      the detailed instructions in the following sections.
+    </p>
+
+    <ol>
+    <li>
+      Download xmlpl-builder from
+      <a href="http://sourceforge.net/project/showfiles.php?group_id=164952">
+      SourceForge</a>.
+    </li>
+
+    <li>
+      You need all the packages listed in <a href="#Prerequisites">
+      Prerequisites</a>.  In Debian run the following command as root:
+      <ws:code href="examples/install/debian_prerequisites.sh"/>
+    </li>
+
+    <li>
+      Unpack the distribution:
+      <ws:code>tar xzvf xmlpl-builder-x.x.x.tar.gz</ws:code>
+    </li>
+
+    <li>
+      Move in to package directory:
+      <ws:code>cd xmlpl-builder-x.x.x</ws:code>
+    </li>
+
+    <li>
+      Configure the install path:
+      <ws:code>./configure --prefix=/usr</ws:code>
+    </li>
+
+    <li>
+      Build and install:
+      <ws:code>make</ws:code>
+    </li>
+
+    <li>
+      <b>If</b> you installed somewhere other than <tt>/usr</tt> run this
+      from the xmlpl-builder directory before using the compiler:
+      <ws:code>. `pwd`/env</ws:code>
+    </li>
+    </ol>
+  </section>
+
+  <section name="Prerequisites">
+    <p>
+      XmlPL is known to work on <a href="http://www.debian.org/">Debian</a>,
+			<a href="http://www.ubuntu.com/">Ubuntu</a> and
+			<a href="http://fedora.redhat.com/">Fedora</a>
+      <a href="http://www.kernel.org/">Linux</a> systems, but should
+      also work on other <a href="http://en.wikipedia.org/wiki/POSIX">POSIX</a>
+      compliant systems and if there is enough demand will one day be ported
+      to Windows.  In the mean time, if you know what you are doing you can
+			probably build it with <a href="http://www.cygwin.com/">Cygwin</a>.
+    </p>
+
+    <p>
+      Before building the XmlPL compiler some packages need to be
+      installed.  Some may already be on your system.  They are
+      listed in the table below:
+    </p>
+
+    <table class="table">
+      <tr>
+        <th>Package</th><th>Description</th><th>Version</th><th>Debian</th>
+      </tr>
+      <tr>
+        <td><a href="http://www.gnu.org/software/libc/">glibc</a></td>
+        <td>GNU C library</td>
+        <td>&gt;= 2.3.5</td>
+        <td>libc6-dev</td>
+      </tr>
+
+      <tr>
+        <td><a href="http://gcc.gnu.org/">g++</a></td>
+        <td>The GNU C++ compiler</td>
+        <td>&gt;= 3.3.6</td>
+        <td>g++</td>
+      </tr>
+
+      <tr>
+        <td><a href="http://www.gnu.org/software/make/">make</a></td>
+        <td>GNU Make</td>
+        <td>&gt;= 3.80</td>
+        <td>make</td>
+      </tr>
+
+      <tr>
+        <td><a href="http://www.gnu.org/software/bash/">bash</a></td>
+        <td>The GNU Bourne Again SHell</td>
+        <td>&gt;= 3.1</td>
+        <td>bash</td>
+      </tr>
+
+      <tr>
+        <td><a href="http://www.gnu.org/software/libtool/manual.html">
+          libltdl</a></td>
+        <td>Platform independent dynamic library loader</td>
+        <td>&gt;= 1.5.22</td>
+        <td>libltdl3-dev</td>
+      </tr>
+
+      <tr>
+        <td><a href="http://www.hpl.hp.com/personal/Hans_Boehm/gc/">gc</a></td>
+        <td>Garbage Collector</td>
+        <td>&gt;= 6.4</td>
+        <td>libgc-dev</td>
+      </tr>
+
+      <tr>
+        <td><a href="http://curl.haxx.se/">libcURL</a></td>
+        <td>Tool for downloading files from URLs</td>
+        <td>&gt;= 7.15.3</td>
+        <td>libcurl3-dev</td>
+      </tr>
+
+      <tr>
+        <td><a href="http://xmlsoft.org/">libXML2</a></td>
+        <td>XML parser</td>
+        <td>&gt;= 2.6.23</td>
+        <td>libxml2-dev</td>
+      </tr>
+    </table>
+
+    <p>
+      All of these packages can be installed with the following command on
+      Debian systems, either as root or using sudo:
+      <ws:code href="examples/install/debian_prerequisites.sh"/>
+    </p>
+
+		<p>
+		  As of XmlPL 0.1.3 XercesC is no longer needed.
+		</p>
+  </section>
+
+  <section name="Download xmlpl-builder">
+    <p>
+      The latest version of the XmlPL compiler can be found on the
+      <a href="http://sourceforge.net/project/showfiles.php?group_id=164952">
+      SourceForge download page</a>.
+    </p>
+
+    <p>
+      The XmlPL compiler is actually made up of several packages.
+      xmlpl-builder is a sort of super package.  It contains several other
+      packages and takes care of building and installing the sub-packages in
+      the correct order.
+    </p>
+  </section>
+
+  <section name="Unpack Distribution">
+    <p>
+      Unpack the distribution in the directory of your choice with
+      the following command:
+
+      <ws:code>tar xzvf xmlpl-builder-x.x.x.tar.gz</ws:code>
+    </p>
+  </section>
+
+  <section name="Choose Install Path">
+    <p>
+      The xmlpl-builder package greatly simplifies the build process, but
+      it builds and installs everything in one go.  For this reason you
+      must first choose an install path.
+    </p>
+
+    <p>
+      By default xmlpl-builder builds and installs the software in the
+      same directory it was unpacked into.  This is convenient if you
+      don't want to install xmlpl in system directories, but makes it
+      more difficult to use the compiler because you must first setup
+      a number of environment variables so that the executables and libraries
+      are found by the compiler.
+    </p>
+
+    <p>
+      If you want to install in a different directory run the following
+      command in the xmlpl-builder directory:
+    </p>
+
+    <ws:code>./configure --prefix=/path/to/your/directory</ws:code>
+
+    <p>
+      For example to install in to the system directories use the following
+      command:
+    </p>
+
+    <ws:code>./configure --prefix=/usr</ws:code>
+  </section>
+
+  <section name="Build &amp; Install">
+    <p>
+      To build and install XmlPL simply run the following command in
+      the xmlpl-builder directory:
+    </p>
+
+    <ws:code>make</ws:code>
+
+    <p>
+      If the configuration looks good answer yes.
+    </p>
+
+    <p>
+      Go get a cup of coffee. . .
+    </p>
+  </section>
+
+  <section name="If things go wrong">
+    <p>
+      If the build fails for some reason run the following command:
+    </p>
+
+    <ws:code>make status</ws:code>
+
+    <p>
+      The results of this command will show you how far the build got.  Here
+      is an example output:
+    </p>
+
+    <ws:code href="examples/install/build_status.txt"/>
+
+    <p>
+      In the example above you can see that build finished configuring
+      xmlplcc but got no further.  This means it started to <em>make</em>
+      xmlplcc but did not finish for some reason.
+    </p>
+
+    <p>
+      Read the error messages printed by the build process and try to
+      correct the problem.  Then rerun <em>make</em> in the xmlpl-builder
+      directory and it will try to continue where it left off.
+    </p>
+
+    <p>
+      If you are still having problems please email
+      <ws:email address="bugs@xmlpl.org"/>, explain your problem and
+      <b>attach the xmlpl-builder.log file</b> from the xmlpl-builder
+      directory.
+    </p>
+  </section>
+
+  <section name="What next?">
+    <p>
+      Once you have successfully built XmlPL you will probably want to
+      use the compiler to build some programs.  If you installed XmlPL
+      in a system directory such as <tt>/usr</tt> then no further
+      configuration is necessary.  If you built and installed XmlPL in
+      a non-system directory then you need to <em>source</em> the
+      <tt>env</tt> script.  From the xmlpl-builder directory.  Run the
+      following command to setup some environment variables:
+    </p>
+
+    <ws:code>. `pwd`/env</ws:code>
+
+    <p>
+      Congratulations, you have successfully installed XmlPL and are now
+      ready to slice and dice XML.  You may want to check out the
+      <ws:link sec="examples"/>.
+    </p>
+  </section>
+</section>

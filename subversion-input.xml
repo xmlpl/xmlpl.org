@@ -1,0 +1,93 @@
+<section  xmlns:ws="http://www.xmlpl.org/website"
+          xmlns:xi="http://www.w3.org/2001/XInclude"
+          name="Building From Subversion">
+
+  <section name="Introduction">
+	  <p>
+		  Building and installing from Subversion is perhaps the most difficult
+			method of installing XmlPL.  You may first want to consider the other
+			options listed on the <ws:link sec="download"/> page.  However, there
+			are advantages.  If want access to the most bleeding edge version
+			of XmlPL this is the way to get it.  Also, if you want to contribute
+			to the project you should probably start here.
+		</p>
+	  <p>
+		  To build from the <a href="http://www.subversion.org/">Subversion</a>
+			repository you must have a Subversion client installed on you system.
+		</p>
+  </section>
+
+  <section name="Prerequisites">
+	  <p>
+		  In order to build XmlPL you will need to install the same prerequisites
+			as are required for the XmlPL builder install method.  See
+			<ws:link sec="install" anchor="Prerequisites"/> for more information.
+		</p>
+	</section>
+	
+  <section name="Check Out the Repository">
+	  <p>
+		  In addition to the XmlPL repository, you will also need the
+			BasicUtils library from
+			the <a href="http://sourceforge.net/projects/xmlcereal">XMLCereal</a>
+			project.  You can attain these with the following commands.
+		</p>
+
+		<ws:code>
+mkdir xmlpl
+cd xmlpl
+svn co https://xmlcereal.svn.sourceforge.net/svnroot/xmlcereal/trunk/BasicUtils libbasicutils
+svn co https://xmlpl.svn.sourceforge.net/svnroot/xmlpl/trunk .
+		</ws:code>
+  </section>
+
+  <section name="Build &amp; Install the Packages">
+	  <p>
+		  The XmlPL compiler tools are made up of a number of packages.  You must
+			build and install these in the following order.
+	  </p>
+
+	  <ul>
+		  <li>libbasicutils</li>
+			<li>libantlr</li>
+			<li>libxmlpl_cpp_runtime</li>
+			<li>xmlplcc</li>
+			<li>libxmlpl_cpp_standard</li>
+			<li>xmlpl</li>
+		</ul>
+
+		<p>
+		  The packages can be built with the following commands.
+		</p>
+
+		<ws:code>
+cd &lt;package directory&gt;
+./autogen.sh
+./configure --prefix &lt;install path&gt;
+make
+make install
+cd ..
+		</ws:code>
+
+		<p>
+		  If you want to install directly to your system paths then you
+			may omit the <inline>--prefix &lt;install path&gt;</inline>
+			option.  Otherwise, you should ensure that <inline>&lt;install
+			path&gt;</inline> is listed in your <inline>PATH</inline>
+			environment variable so that the other packages can find their
+			installed dependencies. You may also need to set your
+			<inline>LD_LIBRARY_PATH</inline>.  You can use the following
+			commands to achieve this.
+		</p>
+		<ws:code>
+export PATH=$PATH:&lt;install path&gt;/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH=&lt;install path&gt;/lib
+		</ws:code>
+
+    <p>
+		  Of course you must replace <inline>&lt;install
+			path&gt;</inline> with your actual install path.
+		</p>
+	</section>
+
+</section>

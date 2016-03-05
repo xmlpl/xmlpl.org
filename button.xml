@@ -1,0 +1,18 @@
+<button xmlns:ws="http://www.xmlpl.org/website">
+  <ws:switch value="${button.disabled}"><ws:case value="false">
+    <ws:switch value="${button.childselected}">
+      <ws:case value="false">
+        <ws:set name="button.class" value="button"/>
+      </ws:case>
+      <ws:default>
+        <ws:set name="button.class" value="pressedButton"/>
+      </ws:default>
+    </ws:switch>
+
+    <a href="${button.href}" class="${button.class}"
+      title="${button.tooltip}">
+      <div>${button.title}</div>
+    </a>
+  </ws:case></ws:switch>
+</button>
+ 

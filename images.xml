@@ -1,0 +1,43 @@
+<ws:dir name="http"
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  xmlns:ws="http://www.xmlpl.org/website">
+
+  <xi:include href="colors.xml" children="true"/>
+  <ws:set name="top" value="."/>
+
+  <ws:script-fu>
+   (web-color-image-file "../source-images/xmlpl_logo.xcf"
+     '("Background" "${colors.bg}") "images/xmlpl_logo.png")
+
+   (web-color-image-file "../source-images/cauldrondev.xcf"
+     '("Background" "${colors.bg}") "images/cauldrondev.png")
+
+   (web-color-image-file "../source-images/print.xcf"
+     '("Background" "${colors.section}") "images/print.png")
+
+   (web-color-image-file "../source-images/print32.xcf"
+     '("Background" "${colors.section}") "images/print32.png")
+
+   (web-color-image-file "../source-images/save.xcf"
+     '("Background" "${colors.code}") "images/save.png")
+
+   (web-color-image-file "../source-images/save32.xcf"
+     '("Background" "${colors.code}") "images/save32.png")
+
+   (web-color-image-file "../source-images/forward.xcf"
+     '("Background" "${colors.code}") "images/forward.png")
+
+   (web-color-image-file "../source-images/forward32.xcf"
+     '("Background" "${colors.code}") "images/forward32.png")
+  </ws:script-fu>
+
+  <ws:dir name="images/border">
+    <ws:set name="border" value="${top}/../source-images/shadow.xcf"/>
+    <ws:script-fu>
+      (let* ((image (web-open "${border}")))
+        (web-color-layer image "Background" "${colors.bg}")
+        (web-chop-border image)
+      )
+    </ws:script-fu>
+  </ws:dir>
+</ws:dir>

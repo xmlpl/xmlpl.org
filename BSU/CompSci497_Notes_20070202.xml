@@ -1,0 +1,86 @@
+<html>
+  <head>
+    <style type="text/css" media="all">
+		  h1 {text-align: center; font-size: 22pt}
+		  h2 {font-size: 14pt}
+		  h3 {font-size: 12pt}
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="print.css" />
+	  <title>CompSci497 Lecture Notes Febuary 2nd, 2007</title>
+  </head>
+	<body>
+	  <h1>
+      CompSci497<br/>
+      Advanced XML Programming with XmlPL<br/>
+      Lecture Notes<br/>
+			Friday, Febuary 2nd, 2007
+    </h1>
+
+		<br/><br/>
+		<contents/>
+
+		<section name="Basic XmlPL Programming">
+		  <section name="Hello World (Beat to death)">
+		  	<ul>
+		      <li><a href="http://www.xmlpl.org/hello.html">Hello World!</a></li>
+		      <li><a href="http://www.xmlpl.org/hello.html">Hello World Wide
+					Web!</a></li>
+		  		<li><a href="Notes_20070202/hello_web_cgi.xpl">Hello World! CGI</a>
+					aka Common Gateway Interface
+	  			</li>
+  			</ul>
+  		</section>
+		  <section name="Producing XML">
+			  <ul>
+				  <li>The Basics: Element, Attribute, Text, Comment Processing
+					Instruction
+					(<a href="Notes_20070202/basics.xpl">example</a>)
+					(<a href="Notes_20070202/basics.out">output</a>)
+					</li>
+				  <li>Programmatic XML:
+					(<a href="Notes_20070202/programmatic.xpl">example</a>)
+					(<a href="Notes_20070202/programmatic.out">output</a>)
+					</li>
+					<li>Adding Attributes Programmaticly:
+					(<a href="Notes_20070202/prog_attrs.xpl">example</a>)
+					(<a href="Notes_20070202/prog_attrs.out">output</a>)
+					</li>
+			  </ul>
+			</section>
+		  <section name="Reading XML">
+			  <ul>
+				  <li>XML input via standard in (stdin)</li>
+					<li>Opening a file</li>
+					<li>Opening a URL</li>
+					<li>
+					(<a href="Notes_20070202/reading_xml.xpl">example</a>)
+					(<a href="Notes_20070202/reading_xml.out">output</a>)
+					</li>
+			  </ul>
+			</section>
+		  <section name="XmlPL Path Expressions">
+			  <ul>
+				  <li>Steps and Axis: Child, Parent, Self, Attribute, Processing
+					Instruction, Descendant-or-self</li>
+					<li>Node Test: Name or Type</li>
+					<li>Predicates</li>
+					<li>Result types</li>
+					<li><a href="http://www.xmlpl.org/lang-spec.html#Path">Differences
+					between XPath and XmlPL Path Expressions</a></li>
+			  </ul>
+			</section>
+		</section>
+		<section name="Intro to Web Applications with XmlPL">
+		  <ul>
+			  <li>RSS: Reuters: Science
+					(<a href="Notes_20070202/reuters_science.xpl">example</a>)
+					(<a href="Notes_20070202/reuters_science.html">output</a>)
+				</li>
+			  <li>RSS: Reuters: Feeds
+					(<a href="Notes_20070202/reuters_feeds.xpl">example</a>)
+					(<a href="http://onyx.boisestate.edu/~jcofflan/cgi-bin/reuters_feeds.cgi">app</a>)
+				</li>
+			</ul>
+		</section>
+	</body>
+</html>

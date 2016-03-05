@@ -1,0 +1,76 @@
+<example xmlns:xi="http://www.w3.org/2001/XInclude"
+  xmlns:ws="http://www.xmlpl.org/website">
+  <intro>
+    <p>
+      The classic hello world program does not really exercise many of the
+      features which make XmlPL special.  It is an XML processor after all.
+      So here is hello world, web page.
+    </p>
+  </intro>
+
+  <step name="page" title="Create Bare Web Page">
+    <ws:code href="examples/hello_web/hello_web1.xpl"/>
+
+    <p>
+      First create a blank Web page by outputting some XML data from
+      <em>main</em>.  Remember that the <span class="inline">node[]</span>
+      return type indicates that <em>main</em> will output a stream of XML
+      nodes.
+    </p>
+  </step>
+
+  <step name="string" title="Add Hello World! String">
+    <ws:code href="examples/hello_web/hello_web2.xpl"/>
+
+    <p>
+      This step creates a variable, <em>helloString</em> and initializes it
+      to the value <em>"Hello World!"</em>.
+    </p>
+  </step>
+
+  <step name="output" title="Output The String">
+    <ws:code download="true" href="examples/hello_web/hello_web.xpl"/>
+
+    <p>
+      Output both page title and first header.  Hello world, Web page is
+      complete.
+    </p>
+  </step>
+
+  <step name="compile" title="Compile &amp; Run">
+    <p>
+      The following <a href="http://en.wikipedia.org/wiki/Shell_script">
+      shell script</a> will compile and execute the program.
+    </p>
+
+    <ws:code download="true" href="examples/hello_web/build_and_run.sh"/>
+  </step>
+
+
+  <step name="view" title="View The Results">
+    <p>
+      The previous step should have produced a file <em>index.html</em>
+      with the following contents.
+    </p>
+
+    <ws:code href="examples/hello_web/index.html"/>
+
+    <p>
+      Notice there are no unnecessary spaces.
+    </p>
+
+    <p>
+      Below, you can see the resulting Web page.
+    </p>
+
+    <div class="code">
+      <div class="example-html">
+        <a class="forward" href="examples/hello_web/index.html">
+          <div> </div>
+        </a>
+        <object type="text/html" data="examples/hello_web/index.html">
+        </object>
+      </div>
+    </div>
+  </step>
+</example>

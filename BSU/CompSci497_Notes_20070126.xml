@@ -1,0 +1,175 @@
+<html>
+  <head>
+    <style type="text/css" media="all">
+		  h1 {text-align: center; font-size: 22pt}
+		  h2 {font-size: 14pt}
+		  h3 {font-size: 12pt}
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="print.css"/>
+	  <title>CompSci497 Lecture Notes January 26th, 2007</title>
+  </head>
+	<body>
+	  <h1>
+      CompSci497<br/>
+      Advanced XML Programming with XmlPL<br/>
+      Lecture Notes<br/>
+			Friday, January 26th, 2007
+    </h1>
+
+		<br/><br/>
+		<contents/>
+
+		<section name="An Introduction to SAX, DOM, XSLT, &amp; XQuery.">
+		  <section name="SAX">
+			  <ul>
+				  <li>Simple API for XML</li>
+					<li>Event driven</li>
+					<li>Defines a set of function callback</li>
+					<li>startElement, endElement, startDocument, endDocument,
+					text, processingInstruction, etc.</li>
+				</ul>
+			</section>
+		  <section name="DOM">
+			  <ul>
+				  <li>Document Object Model</li>
+				  <li>Language independent</li>
+					<li>Defines XML as a tree of objects</li>
+					<li>Defines valid operations (methods) on those objects</li>
+			  </ul>
+			</section>
+		  <section name="XSLT">
+			  <ul>
+				  <li>Extensible Stylesheet Language Transformations</li>
+					<li>Template processor</li>
+					<li>Designed to transform XML documents</li>
+					<li>Predecessor of: Document Style Semantics and Specification
+					Language (DSSSL)</li>
+					<li>http://en.wikipedia.org/wiki/XSLT for examples</li>
+			  </ul>
+			</section>
+		  <section name="XQuery">
+			  <ul>
+				  <li>XML Query Language</li>
+				  <li>semantically similar to SQL</li>
+					<li>FLWOR: FOR, LET, WHERE, ORDER BY, RETURN</li>
+					<li>http://en.wikipedia.org/wiki/XQuery for example</li>
+			  </ul>
+			</section>
+		</section>
+
+		<section name="A justification for XmlPL">
+			<section name="SAX">
+		    <ul>
+			    <li>Fast and efficient for small tasks.</li>
+			    <li>Does not allow linear code execution.</li>
+			    <li>Difficult to relate different parts of an XML document</li>
+					<li>Must maintain stacks of context information</li>
+					<li>No output processing</li>
+				</ul>
+			</section>
+			<section name="DOM">
+		    <ul>
+			    <li>Resource hog.</li>
+			    <li>XML DOM is often 6 or more times larger in memory
+					than on disk</li>
+			    <li>APIs generally don't allow for partial loading</li>
+			    <li>DOM APIs are clumsy</li>
+					<li>No output processing</li>
+				</ul>
+			</section>
+			<section name="XSLT">
+		    <ul>
+			    <li>Verbose: XML is not good at describing computation</li>
+			    <li>Slow</li>
+			    <li>Designed mainly for document transformation</li>
+			    <li>Unable to update XML trees</li>
+				</ul>
+			</section>
+			<section name="XQuery">
+		    <ul>
+			    <li>Designed for querying XML documents as databases</li>
+			    <li>Messy SQL like syntax</li>
+			    <li>Unable to update XML trees</li>
+			    <li>Not widely supported</li>
+				</ul>
+			</section>
+			<section name="XmlPL">
+		    <ul>
+			    <li>Efficient single pass processing</li>
+			    <li>Linear code execution</li>
+			    <li>Allows user to control DOM memory usage</li>
+			    <li>Internal DOM representation used less memory</li>
+			    <li>Output processing guarantees well formed XML output.</li>
+			    <li>Clean C-like syntax</li>
+			    <li>Allows in memory updating as well as on-the-fly processing</li>
+			    <li>Designed for general purpose XML processing</li>
+				</ul>
+  		  <section name="Comparisons">
+		      <ul>
+				    <li>XmlPL vs. SAX: <a href="Notes_20070126/Flour.html">Flour</a>
+            <a href="http://www.brics.dk/~amoeller/XML/programming/saxexample.html">
+						(source)</a>
+						</li>
+			      <li>XmlPL vs. DOM:
+						<a href="Notes_20070126/FirstRecipeDOM.html">FirstRecipeDOM</a> <a
+						href="http://www.brics.dk/~amoeller/XML/programming/domexample.html">
+						(source)</a>
+						</li>
+			      <li>XmlPL vs. XSLT:
+						<a href="Notes_20070126/persons.html">persons</a>
+						<a href="http://en.wikipedia.org/wiki/XSLT">(source)</a>
+						</li>
+			      <li>XmlPL vs. XQuery:
+						<a href="Notes_20070126/hamlet.html">hamlet</a>
+						<a href="http://en.wikipedia.org/wiki/XQuery">(source)</a>
+						<a href="http://www.cafeconleche.org/books/biblegold/examples/shakespeare/hamlet.xml">
+						(input source)</a>
+						</li>
+				  </ul>
+			  </section>
+			</section>
+		</section>
+
+		<section name="XmlPL Architecture">
+		  <section name="Compiler">
+		    <ul>
+				  <li>Written in C++</li>
+				  <li>Antlr parser generator</li>
+					<li>AST: Abstract Syntax Tree</li>
+			    <li>Environment</li>
+			    <li>Library importer</li>
+			    <li>C++ code generator</li>
+					<li>Should either report an error and fail or produce compilable
+					C++ code</li>
+					<li>Known bugs exist (and likely unknown)</li>
+				</ul>
+		    <section name="xmlplcc: command line">
+		      <ul>
+			      <li>Parses code, generates C++, calls g++ to build</li>
+			      <li>Able to build standalone or library</li>
+			      <li>Can dump a stack trace on errors (-t option)</li>
+						<li>Able to dump an XML parse tree</li>
+		  		</ul>
+	  		</section>
+			</section>
+			<section name="Runtime">
+		    <ul>
+			    <li>Also written in C++</li>
+					<li>Boehm-Demers-Weiser conservative garbage collector</li>
+			    <li>libxml2 parser and output processing</li>
+			    <li>Custom low-memory DOM</li>
+			    <li>Pull parser on top of SAX</li>
+			    <li>Efficient Sequence implementation</li>
+					<li>libcurl network access</li>
+				</ul>
+			</section>
+			<section name="Standard Lib">
+		    <ul>
+			    <li>currently fairly limited</li>
+			    <li>curl, gen, math, process, stdio, stdlib, string, unistd, xml</li>
+			    <li>Easy to expand</li>
+				</ul>
+			</section>
+		</section>
+	</body>
+</html>

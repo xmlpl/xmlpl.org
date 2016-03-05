@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<body xmlns:ws="http://www.xmlpl.org/website">
+  <h2>Talks, Presentations &amp; Courses</h2>
+
+	<ul>
+    <li>Boise State University:<ws:link sec="CompSci497">CompSci497: Advanced
+		XML Programming in XmlPL</ws:link></li>
+	  <li>Boise Code Camp 2007: <a href="BoiseCodeCamp2007/presentation.html">
+		Slice &amp; dice the Web with XmlPL, The XML Processing Language</a>
+		<a href="BoiseCodeCamp2007/BoiseCodeCamp2007-Presentation.odp">
+		(OpenOffice)</a></li>
+  </ul>
+</body>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<body  xmlns:ws="http://www.xmlpl.org/website"
+       xmlns:xi="http://www.w3.org/2001/XInclude">
+  <p>
+	  There are a couple of ways to get the XmlPL compiler.
+	</p>
+
+	<h3>1) The XmlPL Builder Package</h3>
+	<p>
+	  Download the <a
+		href="http://sf.net/project/showfiles.php?group_id=164952 Download"
+		>XmlPL Builder Package</a> from SourceForge.  Then follow the
+		directions on the <ws:link sec="install"/> page to build from source.
+	</p>
+
+	<h3>2) Install the Debian binary packages</h3>
+	<p>
+	  See <ws:link sec="debian_install"/> for more information.
+	</p>
+
+	<h3>2) Use Subversion &amp; Build From Source</h3>
+  <p>
+    This method is the most difficult but is the best way to keep up on
+		the latest bleeding edge version of the XmlPL compiler tools.
+		See <ws:link sec="subversion"/>.
+  </p>
+</body>

@@ -1,0 +1,2535 @@
+<section
+  xmlns:ws="http://www.xmlpl.org/website"
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  name="XmlPL Language Specification">
+  <section name="Introduction">
+
+    <p>
+      XmlPL is a programming language which provides built-in
+      features for <a href="http://en.wikipedia.org/wiki/Xml">XML</a>
+      processing integrated with a C-like syntax.
+      Among these features are XML <t>path</t> <t>expression</t>s and XML
+      <t>statement</t>s.
+    </p>
+
+    <p>
+      XmlPL grew out of frustration with the inefficiencies and over
+      complicated nature of existing methods for XML manipulation such
+      as <a href="http://www.w3.org/TR/xslt">XSLT</a>,
+      <a href="http://www.w3.org/TR/xquery/">XQuery</a>, and API
+      approaches like <a href="http://www.w3.org/DOM/">DOM</a> and
+      <a href="http://www.saxproject.org/">SAX</a>.  XmlPL
+      overcomes many of the problems with these approaches by treating
+      XML as a native data <t>type</t>, integrating <t>path</t>
+      <t>expression</t>s with a
+      C-like syntax and compiling
+      rather than interpreting to create an intuitive and efficient XML
+      processing language.
+    </p>
+
+    <p>
+      This is an <b>informal</b> document describing
+      XmlPL's syntax in detail.  It is intended to be a reference for
+      those who wish to develop programs using XmlPL.  XmlPL's library
+      <t>function</t>s are not discussed here.  Furthermore, not many examples
+      are provided here.  Examples and additional documentation can be found
+      at <a href="http://www.xmlpl.org/doc-overview.html">
+      http://www.xmlpl.org/doc-overview.html</a>.
+    </p>
+
+    <section name="Status">
+      <p>
+        This document is an initial draft.  Therefore, portions
+        will likely change as XmlPL stabilizes.  However, the language
+        has been in development and real world use since 2003, so
+        changes to the language syntax should be minor.  If you encounter
+        errors in this document please email
+        <ws:email address="docs@xmlpl.org"/>.
+      </p>
+    </section>
+
+    <section name="Conventions">
+      <p>
+        This section describes the conventions used in this document.
+      </p>
+
+      <section name="Hyperlinks">
+        <p>
+          Topics beyond the scope of this document
+          are generally linked to resources on the Internet which explain
+          the topic in question in more detail.  Because of the nature of
+          the Internet there is no guarantee that referenced information will
+          be the same or even still exist at the time you are reading this
+          document.  If you encounter dead or inappropriate links please
+          inform the author by email to <ws:email address="docs@xmlpl.org"/>.
+        </p>
+      </section>
+
+      <section name="Grammar">
+        <p>
+          The language grammar is listed through out this document in
+          boxes such as the one below:
+          <ws:code>Example grammar box</ws:code>
+        </p>
+        <p>
+          The grammar is described using the same variant of
+          <a href="http://en.wikipedia.org/wiki/Extended_Backus-Naur_form">
+          EBNF</a> notation used in the <a href="http:/www.w3.org">
+          w3.org's</a> XML specification.  A description of this notation
+          can be found in the
+          <a href="http://www.w3.org/TR/REC-xml/#sec-notation">Notation</a>
+          section of the XML specification.
+        </p>
+
+        <p>
+          In addition the <s>.</s> character
+          is used to match any character in the
+          <a href="http://en.wikipedia.org/wiki/ASCII">ASCII character set</a>.
+        </p>
+
+        <p>
+          Lexical grammar tokens are written in all capital letters to
+          distinguish them from parser tokens.
+        </p>
+      </section>
+
+      <section name="Implementation Consistency">
+        <p class="flux">
+          The XmlPL compiler is under active development and is
+          currently in the alpha phase.  For this reason there are
+          some inconsistencies between the language specification and
+          the actual implementation.  As the compiler progresses these
+          differences with disappear and should be completely
+          eradicated by the time XmlPL reaches a 1.0 release.  In the
+          meantime, sections of this document which are either in flux
+          or are not yet implemented as written are colored like the
+          text in this section.  If you have questions about the
+          actual implementation please email the author at <ws:email
+          address="support@xmlpl.org"/>.
+        </p>
+     </section>
+    </section>
+
+    <section name="License">
+      <p>
+        All text in this document is copyright (C) 2006, Cauldron
+        Development LLC and available under the terms of the <a
+        href="http://www.gnu.org/copyleft/fdl.html">GNU Free
+        Documentation License</a>.  The terms of this license can be
+        found online at <a
+        href="http://www.gnu.org/copyleft/fdl.html">
+        http://www.gnu.org/copyleft/fdl.html</a> or may be obtained by
+        written request to: <tt>Free Software Foundation, Inc.  51
+        Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</tt>.
+      </p>
+    </section>
+
+    <section name="Overview">
+      <p>
+        The remainder of this document is divided into six major parts.
+      </p>
+
+      <p>
+        The <a href="#Lexical Structure">Lexical Structure</a> which
+        describes how XmlPL <t>program</t> text is broken up in to tokens
+        which are used to define <t>program</t> structure.
+        The section <a href="#Type System">Type System</a> describes
+        data <t>type</t>s in XmlPL and how they are used.
+      </p>
+
+      <p>
+        The last four sections, <a
+        href="#Declarations">Declarations</a>, <a
+        href="#Statements">Statements</a>, <a
+        href="#Expressions">Expressions</a> and <a href="#Native
+        Block">Native Block</a> describe the structure of an XmlPL
+        program.  <t>Declaration</t>s are the top most structure and may
+        contain <t>Statement</t>s which in turn may contain <t>expression</t>s.  The
+        <t>Native Block</t> provides the means to access the underlying language
+        to which XmlPL is translated and may be used as either a
+        <t>Declaration</t> or a <t>Statement</t>.
+      </p>
+    </section>
+  </section>
+
+  <section name="Lexical Structure">
+    <p>
+      This section describes the <a
+      href="http://en.wikipedia.org/Lexical_analysis">Lexical</a>
+      structure of an XmlPL <t>program</t>.
+    </p>
+
+    <p>
+      Throughout this document <a
+      href="http://en.wikipedia.org/wiki/Whitespace_%28computer_science%29">
+      whitespace</a> within the grammar is ignored and can be assumed to be.
+      allowed between tokens.  However, in this section
+      whitespace is named explicitly.  Unless otherwise noted you can
+      assume that whitespace is not allowed between lexical <a
+      href="http://en.wikipedia.org/wiki/Token_%28parser%29">tokens</a>.
+    </p>
+
+    <section name="Names">
+      <grammar name="NAME" break="true">
+        <or><t>LETTER</t><s>_</s></or> <star><or>
+          <t>LETTER</t>
+          <t>DIGIT</t>
+          <s>_</s>
+          <s>.</s>
+          <s>-</s>
+        </or></star>
+      </grammar>
+      <grammar name="ID">
+        <t>NAME</t><minus/><t>KEYWORDS</t>
+      </grammar>
+      <grammar name="LETTER">
+        <c>a-zA-Z</c>
+      </grammar>
+
+      <p>
+        <t>Name</t>s in XmlPL are case sensitive and are used to identify
+        <t>function</t>s and <t>variable</t>s and in XML <t>statement</t>s
+        and <t>path</t> <t>expression</t>s.
+      </p>
+
+      <p>
+        There are two types of identifiers or <t>name</t>s in XmlPL.  Those
+        used for <t>variable</t> and <t>function</t> names and those used in
+        XML <t>element</t>, <t>attribute</t>, <t>processing instruction</t>
+        and <t>path</t> names.  Although, XmlPL, for the most part to unifies
+        these types of <t>name</t>s there are some differences.
+      </p>
+
+      <p class="flux">
+        Too remain compatible with XML both types of <t>name</t>s
+        allow the <s>-</s> character which is not allowed in languages like
+        C, C++ and Java.  This can cause some confusion in XmlPL. An
+        identifier such as <inline>x-y</inline> does not mean <b>x</b> minus
+        <b>y</b> like it can in other languages.  However, accidently
+        typing <inline>x-y</inline> when <b>x</b> minus <b>y</b> was the
+        intent will cause a compile time error if the identifier
+        <b>x-y</b> is not found.  Using <s>-</s> in identifier <t>name</t>s
+        is not recommended.
+      </p>
+
+      <p>
+        Additionally, the <s>.</s> character is allowed in
+        <t>name</t>s.  However, in <t>function</t> and <t>variable</t>
+        names it has a special meaning.  The <s>.</s> character is
+        used a <em>scope</em> operator.  Generally, its use is not
+        necessary, but when a <t>function</t> or <t>variable</t>
+        reference is ambiguous, i.e. it occurs in more than one of the
+        imported libraries, then it is necessary to disambiguate the
+        reference by prepending the full library path.
+      </p>
+
+      <p>
+        The final difference is that XmlPL <t>keywords</t> are not
+        valid <t>function</t> and <t>variable</t> names however they
+        are allowed in XML and <t>path</t>
+        <t>expression</t>s.  This makes it possible to, for example,
+        create an XML <k>element</k> with the <t>name</t> "element".
+      </p>
+    </section>
+
+    <section name="Keywords">
+      <grammar name="KEYWORDS"><or>
+        <k>__native__</k> <k>as</k> <k>attribute</k>
+        <k>boolean</k> <k>break</k> <k>case</k>
+        <k>catch</k> <k>comment</k> <k>constant</k>
+        <k>continue</k> <k>default</k> <k>document</k> 
+        <k>element</k> <k>else</k> <k>exception</k>
+        <k>false</k> <k>for</k> <k>foreach</k>
+        <k>if</k> <k>import</k> <k>integer</k>
+        <k>node</k> <k>null</k> <k>package</k>
+        <k>pi</k> <k>prefix</k> <k>qname</k>
+        <k>real</k> <k>redirect</k> <k>return</k> 
+        <k>string</k> <k>switch</k> <k>text</k>
+        <k>throw</k> <k>true</k> <k>try</k>
+        <k>void</k> <k>while</k>
+      </or></grammar>
+
+      <p>
+        <t>Keywords</t> are identifiers that have a special meaning in
+        XmlPL.  They are used to identify XmlPL <t>Statement</t>s,
+        <t>Declaration</t>s, <t>built-in type</t>s and some
+        <t>constant</t> values.  <t>Keywords</t> are not allowed as
+        <t>function</t> or
+        <t>variable</t> names.
+      </p>
+
+    </section>
+
+    <section name="Numbers">
+      <grammar name="INTEGER" break="true"><or break="true">
+        <plus><t>DIGIT</t></plus>
+        <cat><s>0x</s><plus><t>HEX DIGIT</t></plus></cat>
+        <cat><s>0b</s><plus><or>
+          <s>0</s><s>1</s>
+        </or></plus></cat>
+      </or></grammar>
+
+      <grammar name="REAL">
+        <plus><t>DIGIT</t></plus>
+        <s>.</s>
+        <plus><t>DIGIT</t></plus>
+      </grammar>
+
+      <grammar name="DIGIT">
+        <c>0-9</c>
+      </grammar>
+
+      <grammar name="HEX DIGIT"><or>
+        <t>DIGIT</t>
+        <c>a-fA-F</c>
+      </or></grammar>
+
+      <p>
+        Literal decimal, hexadecimal and binary numbers are supported
+        in XmlPL.  Decimal numbers can be <t>integer</t>s or
+        <t>real</t>s.  <t>Integer</t>s are 32 bit signed numbers.
+        <t>Real</t>s are 64bit <a
+        href="http://en.wikipedia.org/wiki/IEEE_Floating_Point_Standard">
+        IEEE double precision floating point numbers</a>.
+      </p>
+
+      <p>
+        XmlPL does not aim to be a completely general purpose
+        programming language so a large variety of number formats and
+        sizes are not provided.  If these features are needed, those
+        parts of the <t>program</t> should be written in a more
+        appropriate language and linked with XmlPL via a library or
+        <t>native block</t>s.
+      </p>
+
+      <p>
+        Binary and hexadecimal <t>integer</t>s are supported by
+        prefixing the number with <s>0b</s> and <s>0x</s> respectively.
+      </p>
+
+    </section>
+
+    <section name="Strings">
+      <!-- Should discuss character encoding. -->
+      <grammar name="STRING">
+        <s>&quot;</s>
+        <or>
+          <cat><star><dot/></star><minus/><s>&quot;</s></cat>
+          <s>\&quot;</s>
+        </or>
+        <s>&quot;</s>
+      </grammar>
+
+      <p class="flux">
+        <t>String</t>s in XmlPL are <a
+        href="http://en.wikipedia.org/wiki/UTF8">UTF8</a> encoded.
+        This means that <a
+        href="http://en.wikipedia.org/wiki/US-ASCII">US-ASCII</a>
+        characters are only 8-bits and length and will function just
+        as they do in C, C++ and Java, but Unicode characters can be
+        used where necessary.  However, beware that UTF8 characters
+        may be as long as 4 bytes.  XmlPL doesn't support a character
+        data <t>type</t> so this is not a big problem.  In the future
+        a byte <t>type</t> will likely be supported.  This leaves it
+        up to the user and library <t>function</t>s to deal with UTF8
+        encoding when necessary without overly complicating the
+        language or wasting large amounts of system memory (for the
+        western world at least).
+      </p>
+
+      <p>
+        Literal <t>string</t>s are formed by placing a number of
+        US-ASCII characters between <s>&quot;</s>, quotation marks.
+        Special characters, including the quotation mark itself, can
+        be included in literal <t>string</t>s via the <s>\</s> escape
+        character.  The table below lists valid escape sequences.
+      </p>
+
+      <table class="table">
+        <tr><th>escape code</th><th>description</th></tr>
+        <tr><td><s>\\</s></td><td>single backslash</td></tr>
+        <tr><td><s>\n</s></td><td>new line</td></tr>
+        <tr><td><s>\t</s></td><td>tab</td></tr>
+        <tr><td><s>\&quot;</s></td><td>double quote</td></tr>
+        <tr><td><s>\x</s> <t>HEX BYTE</t></td>
+          <td>8-bit hexadecimal character code</td></tr>
+        <tr><td><s>\</s> <t>OCTAL CODE</t></td>
+          <td>8-bit octal character code</td></tr>
+        <tr><td><s>\u</s> <t>HEX WORD</t></td>
+          <td>UTF8 character code</td></tr>
+        <tr><td><s>\U</s> <t>HEX WORD</t> <t>HEX WORD</t></td>
+          <td>UTF8 long character code</td></tr>
+      </table>
+
+      <grammar name="OCT DIGIT"><c>0-7</c></grammar>
+
+      <grammar name="OCTAL CODE"><or>
+        <cat>
+          <c>0-3</c>
+          <option>
+            <t>OCT DIGIT</t>
+            <option><t>OCT DIGIT</t></option>
+          </option>
+        </cat>
+        <cat>
+          <c>4-7</c>
+          <option><t>OCT DIGIT</t></option>
+        </cat>
+      </or></grammar>
+
+      <grammar name="HEX WORD">
+        <t>HEX BYTE</t><t>HEX BYTE</t>
+      </grammar>
+      <grammar name="HEX BYTE">
+        <t>HEX DIGIT</t><t>HEX DIGIT</t>
+      </grammar>
+    </section>
+  </section>
+
+  <section name="Type System">
+
+    <p>
+      XmlPL is <a
+      href="http://en.wikipedia.org/wiki/Statically_typed#Static_and_dynamic_typing">
+      statically</a> and <a
+      href="http://en.wikipedia.org/wiki/Strongly-typed_programming_language">
+      strongly</a> typed.  XmlPL also supports one dynamic <t>type</t>
+      and three <a
+      href="http://en.wikipedia.org/wiki/Generic_programming">
+      generic</a> <t>type</t>s.
+    </p>
+
+    <p>
+      An exception to XmlPL's static typing is the <k>node</k>
+      <t>type</t>.  A <k>node</k> <t>variable</t> can point to any of
+      the other <t>XML Type</t>s or
+      <k>null</k>.  This <t>type</t> is necessary because an XML
+      <k>element</k> may have <t>element</t>, text, <k>comment</k> or
+      <k>pi</k> children in any order.  Processing <k>element</k>
+      children therefore requires a small amount of dynamic typing in
+      an otherwise staticly typed language.
+    </p>
+
+    <p>
+      However, the XmlPL compiler does its best to figure out exact
+      <t>type</t>s and avoid the use of node.  For example, the result
+      <t>type</t> of a <t>path</t> <t>statement</t> depends an the
+      axis selected.  A <t>path</t>
+      <t>expression</t> will only have a <k>node</k> <t>sequence</t>
+      <t>return</t> <t>type</t> if it is not sure at compile time what
+      the result <t>type</t> will be.
+    </p>
+
+    <p>
+      There are several <t>built-in type</t>s in XmlPL which make the
+      language unique. Specifically, XML is a native data
+      <t>type</t>.  The <t>XML Type</t>s represent pointers to XML data.
+    </p>
+
+    <grammar name="Type">
+      <or>
+        <t>ID</t>
+        <t>Built-in Type</t>
+      </or>
+      <option><t>GenericOp</t></option>
+    </grammar>
+
+    <section name="Built-in Types">
+      <grammar name="Built-in Type"><or>
+        <k>boolean</k>
+        <k>integer</k>
+        <k>real</k>
+        <k>string</k>
+        <k>exception</k>
+        <k>prefix</k>
+        <k>qname</k>
+        <k>void</k>
+        <t>XML Type</t>
+      </or></grammar>
+
+      <p>
+        The <t>boolean</t> <t>type</t> is allowed two values
+        <k>true</k> or <k>false</k>.
+      </p>
+
+      <p>
+        <t>Integer</t> and <t>real</t> <t>type</t>s are numbers as
+        described in the section <a href="#Numbers">Numbers</a>.
+      </p>
+
+      <p>
+        <t>String</t>s in XmlPL are pointers to immutable arrays of
+        character data.  Concatenating one or more <t>string</t>s
+        together creates a new <k>string</k>.
+        <t>String</t> values are garbage collected when no more
+        <t>variable</t>s point to them.  Literal <t>string</t>s are
+        described in the section <a href="#Strings">Strings</a>.
+      </p>
+
+      <p>
+        The exception <t>type</t> is used in <t>Throw</t>, <t>Try</t>
+        and Catch <t>statement</t>s.  <!-- Link to Exception section
+        when it exists -->
+      </p>
+
+      <p class="flux">
+        Prefix and QName are used to form qualified XML <t>name</t>s.
+      </p>
+
+      <p>
+        The <k>void</k> <t>type</t> is used in two specific cases.
+        <t>Function</t>s which do not
+        <t>return</t> any data should be declared with a <k>void</k>
+        <t>return</t> <t>type</t>.
+        <t>Expression</t>s, such as a <t>function</t> call, which
+        should not append to the current target output stream should
+        be <t>cast</t> to <k>void</k>.
+      </p>
+
+      <grammar name="XML Type"><or>
+        <k>node</k>
+        <k>attribute</k>
+        <k>comment</k>
+        <k>document</k>
+        <k>element</k>
+        <k>pi</k>
+        <k>text</k>
+      </or></grammar>
+
+      <p>
+        The built-in <t>XML type</t>s make XmlPL unique.  Except for
+        the <k>node</k> <t>type</t> the <t>XML type</t>s correspond
+        directly to XML structures.  These <t>type</t>s are pointers
+        to XML data which are garbage collected when no longer
+        referenced.
+      </p>
+
+      <p>
+        <k>pi</k> is short for <t>processing instruction</t>.
+      </p>
+
+      <p>
+        There is no support for XML entities or cdata sections in
+        XmlPL.  However these are converted to <k>text</k> by the XML
+        input processor and can be manipulated as such.
+      </p>
+
+      <p>
+        The <k>node</k> <t>type</t> is XmlPL's only dynamic
+        <t>type</t>.  Nodes may point to any of the other <t>XML
+        type</t>s.  The actual <t>type</t> can be found at runtime via
+        library calls.
+      </p>
+
+    </section>
+
+    <section name="Generics: Streams, Sequences, and Iterators">
+      <grammar name="GenericOp">
+        <or>
+          <s>[]</s>
+          <s>++</s>
+          <s>&lt;&lt;</s>
+        </or>
+      </grammar>
+
+      <p>
+        XmlPL supports three generic <t>type</t> modifiers.  The <s>[]</s>
+        modifier defines <em>sequence</em> of the specified <t>type</t>.  The
+        <s>++</s> defines an <em>iterator</em> over the specified
+        <t>type</t>.  Finally, the <s>&lt;&lt;</s> defines an <em>output
+        stream</em> of the given <t>type</t>.
+      </p>
+
+      <p>
+        Any other <t>type</t> may be a sub-type of the generic
+        <t>type</t>s except the generic <t>type</t>s themselves.  This
+        means it is not possible to create a <t>sequence</t> of
+        <t>sequence</t>s or an iterator over output streams.
+      </p>
+
+      <p>
+        These three generic <t>type</t>s form a powerful I/O and
+        memory management abstraction, are closely related to one
+        another and are heavily integrated into the language.  The
+        compiler treats these <t>type</t>s specially when used in
+        <t>Function</t> output, <t>Redirect</t> and
+        <t>Foreach</t> <t>Statement</t>s and XML <t>Path</t>
+        <t>expression</t>s. Optimizations of the behavior of these
+        generic
+        <t>type</t>s allow for a large performance savings over
+        traditional DOM and XPath based APIs.
+      </p>
+    </section>
+
+    <section name="Type Coercion">
+      <p>
+        In many cases XmlPL performs implicit <t>type</t> coercion.
+        This means that if the actual <t>type</t> of a value is not
+        valid for a <t>function</t> call,
+        <t>variable</t> <t>assignment</t> or operator the compiler
+        will attempt to coerce the <t>type</t> into a more appropriate
+        <t>type</t> based on a set of built-in
+        <t>type</t> casting rules.  These rules are not always enough
+        and can even result in ambiguities in which case the compiler
+        will report an error.  These ambiguities can be resolved
+        through <t>cast</t> <t>expression</t>s.
+      </p>
+
+      <p>
+        The table <a href="implicit_type_coersion.html">
+        XmlPL - Implicit Type Coercion</a> shows XmlPL's built-in
+        casting rules.
+      </p>
+    </section>
+  </section>
+
+
+  <section name="Declarations">
+    <p>
+      <t>Declaration</t>s can <em>declare</em> the existence of
+      <t>function</t>s and <t>variable</t>s in XmlPL.
+    </p>
+
+    <grammar name="Program">
+      <option><t>Package</t></option>
+      <star><t>Declaration</t></star>
+    </grammar>
+    <grammar name="Package">
+      <k>package</k><t>ID</t>
+      <option><t>VERSION</t></option>
+      <s>;</s> </grammar>
+
+    <p>
+      The <t>program</t> <t>declaration</t> may start with a
+      <t>package</t>
+      <t>declaration</t> and contains the entire code of an XmlPL
+      <t>program</t> or library.  The <t>package</t>
+      <t>declaration</t> can be used to assign a <t>name</t> and
+      <t>version</t> to a XmlPL library.
+    </p>
+
+    <p>
+      In general, <t>declaration</t>s are the top most <t>element</t>s
+      of the language and may contain <t>Statement</t>s which in turn
+      may contain <t>Expression</t>s.
+    </p>
+
+    <grammar name="Declaration" break="true"><or break="true">
+      <t>Import</t>
+      <t>Function</t>
+      <t>Variable</t>
+      <t>Native</t>
+    </or></grammar>
+
+    <section name="Import">
+
+      <p>
+        <t>Import</t> <t>declaration</t>s are used to make
+        <t>function</t>s and <t>variable</t>s contained in a library
+        accessible from the current <t>program</t> or
+        library. <t>Import</t> <t>declaration</t>s have the following
+        format.
+      </p>
+
+      <grammar name="Import">
+        <k>import</k>
+        <t>ID</t>
+        <option><t>Version</t></option>
+        <option>
+          <k>as</k>
+          <t>ID</t>
+        </option>
+        <s>;</s>
+      </grammar>
+      <grammar name="Version">
+        <t>Version Range</t>
+        <s>,</s>
+        <t>Version Range</t>
+      </grammar>
+      <grammar name="Version Range" break="true"><or break="true">
+        <cat>
+          <or>
+            <s>&gt;</s>
+            <s>&lt;</s>
+            <s>&gt;=</s>
+            <s>&lt;=</s>
+          </or>
+          <t>VERSION</t>
+        </cat>
+        <cat>
+          <t>VERSION</t><s>-</s><t>VERSION</t>
+        </cat>
+      </or></grammar>
+
+      <p>
+        <t>Version</t> <t>expression</t>s can be used to enforce
+        restrictions on which libraries are imported.  A specific
+        version, a range of <t>version</t>s or a list of specific
+        <t>version</t> and/or ranges can be specified.
+      </p>
+
+      <p>
+        A library's namespace can be renamed on <t>import</t> by using
+        the <k>as</k> keyword.  This makes it possible to disambiguate
+        references to libraries with similar <t>name</t>s or to
+        <t>import</t> different <t>version</t>s of the same library.
+        Two libraries with the same <t>name</t> and <t>version</t>
+        cannot be imported into the same
+        <t>program</t> even indirectly.
+      </p>
+
+    </section>
+
+    <section name="Function">
+      <grammar name="Function" break="true">
+        <t>Type</t>
+        <t>ID</t>
+        <s>(</s>
+        <option><t>Arguments</t></option>
+        <s>)</s> <or><s>;</s><t>Block</t></or> </grammar>
+
+      <p>
+        <t>Function</t>s are a basic building block of <t>program</t>
+        structure in XmlPL.  <t>Function</t> are invoked by
+        <t>Function</t> Calls.
+      </p>
+
+      <section name="Overloading">
+        <p>
+          <t>Function</t>s with the same name,
+          but different <t>arguments</t> are allowed, a.k.a.
+          <em>function overloading</em>.  However, two <t>function</t>s
+          with the same <t>name</t> cannot differ only in <t>return</t>
+          <t>type</t>.
+        </p>
+
+        <p>
+          The return type, function name, and the types, order and number
+          of arguments taken together are often referred to as the
+          <em>function signature</em>.
+        </p>
+      </section>
+
+      <section name="Forward Declaration">
+        <p>
+          As in C, all <t>function</t>s must be declared before they are
+          referenced.  For this reason <em>forward
+          <t>declaration</t>s</em> are supported.  Declaring a
+          function's signature and simply terminating it with a
+          semi-colon creates a <em>forward <t>declaration</t></em>.
+        </p>
+      </section>
+
+      <section name="Sequence Streams">
+        <p>
+          <t>Function</t>s which <t>return</t> a <em>sequence</em>
+          <t>type</t> actually emit a stream of data through an implicit
+          <em>output stream</em> of the same <t>type</t>.  If this data
+          is received by an actual <em>Sequence</em> <t>variable</t> the
+          <em>Sequence</em> will be constructed.  Otherwise, even though
+          the <t>function</t> <t>return</t> <t>type</t> is a
+          <em>Sequence</em> <t>type</t> the output is a stream of events
+          which may be output directly to a file descriptor.  This
+          affords a large performance improvement when constructing the
+          XML DOM is not necessary.
+        </p>
+      </section>
+
+      <section name="Arguments">
+        <grammar name="Arguments">
+          <t>Argument</t> <star><s>,</s><t>Argument</t></star>
+          </grammar> <grammar name="Argument">
+          <t>Type</t>
+          <option><s>&amp;</s></option>
+          <t>ID</t>
+        </grammar>
+
+        <p>
+          <t>Function</t>s may have zero or more <t>argument</t>s.
+          <t>Argument</t> names must be unique within a <t>function</t>
+          and may be of any valid <t>type</t>.  Variable length or
+          default <t>arguments</t> are not supported.
+        </p>
+
+        <p>
+          <t>Arguments</t> may be <em>passed by value</em> or <em>by
+          reference</em>.  The ampersand symbol is used to indicate a
+          pass by reference.  <span class="flux">Arguments passed by
+          reference may be modified by the called <t>function</t> otherwise
+          <t>arguments</t> are <k>constant</k>.</span>
+          Some <t>type</t>s, notably the <t>XML type</t>s, generic <t>type</t>s
+          and <t>string</t> <t>type</t>, are always passed by reference via an
+          underlying pointer. In the same way Java treats object
+          references the called <t>function</t> may modify the data pointed to
+          by these references.  If these <t>type</t>s are passed by reference
+          the calling <t>function</t> may also modify the callers reference
+          <t>variable</t> as well.
+        </p>
+      </section>
+
+      <section name="Main">
+        <p>
+          As in C, C++, Java and many other languages programs in XmlPL are
+          started with a call to the special function <t>main</t>.  Unlike
+          other functions, <t>main</t> may not be overloaded and must be
+          present in all programs.  Libraries do not require and should
+          generally not contain a <t>main</t> function.
+        </p>
+
+        <p>
+          There are a few different valid <t>main</t> function signatures.
+          These are described below.
+        </p>
+
+        <grammar name="Main"><br/>
+          <or>
+            <cat><k>node</k><s>[]</s></cat>
+            <cat><k>string</k><s>[]</s></cat>
+            <k>integer</k>
+          </or>
+          <s>main</s><br/>
+          <s>(</s><or break="true">
+            <cat><k>string</k><s>[]</s><t>NAME</t></cat>
+            <cat><k>document</k><t>NAME</t></cat>
+            <cat>
+              <k>document</k><t>NAME</t><s>,</s>
+              <k>string</k><s>[]</s><t>NAME</t>
+            </cat>            
+            <cat/>
+          </or><br/><s>)</s>
+        </grammar>
+
+        <p class="flux">
+          As the grammar indicates the <t>main</t> function may return
+          either <k>node</k> or <k>strin</k>g streams or an
+          <k>integer</k> value.  In the case of stream return types
+          the program's return code will be zero unless an error
+          occurs such as a signal or an uncaught
+          <k>exception</k> in which case a non-zero value will be
+          returned.  In the future <k>integer</k> or byte streams will
+          likely be supported.
+        </p>
+
+        <p>
+          The two possible arguments of type <k>string</k>[] and
+          <k>document</k> are the program arguments and standard input
+          stream respectively.
+        </p>
+
+        <p>
+          Command line arguments are put in a
+          <k>sequence</k> of <k>string</k>s much like in Java.  The
+          number of arugments can be found by measuring the size of
+          the <k>string</k>
+          <k>sequence</k>.
+        </p>
+
+        <p>
+          If the <k>document</k> argument is present the standard input
+          stream will be interpreted as an XML <k>document</k>.  Because of the
+          nature of XmlPL's underlying DOM implementation the input stream
+          is not parsed until accessed.  The input stream can be accessed
+          using <t>XML Path</t> <t>expression</t>s.
+        </p>
+      </section>
+    </section>
+
+
+    <section name="Variable">
+      <grammar name="Variable">
+        <option><k>constant</k></option>
+        <t>Type</t><t>ID</t>
+        <option>
+          <s>=</s><t>Expression</t><s>;</s>
+        </option>
+      </grammar>
+
+      <p>
+        All <t>variable</t>s must be declared before they can be used.
+        <t>Variable</t>s declared <t>constant</t> cannot be modified and must
+        therefore be initialized with an <t>assignment</t> <t>expression</t>.
+        Non-constant <t>variable</t>s may also be initialized.  Like Java,
+        but unlike C or C++, XmlPL does not allow uninitialized data and
+        will initialize all <t>variable</t>s to their respective <k>null</k>
+        value if not explicitly initialized by the programmer.
+      </p>
+
+      <p>
+        Global <t>variable</t>s are those <t>variable</t>s declared
+        outside of a
+        <t>function</t>.  Global <t>variable</t>s are allocated
+        staticly at program load time.  Global <t>variable</t>s in
+        libraries can be accessed directly in <t>program</t>s which
+        <t>import</t> the library.  Global
+        <t>variable</t>s are <b>not</b> thread safe and must therefore
+        be protected in the presence of threads.
+      </p>
+
+      <p>
+        Local <t>variable</t>s are those declared inside a
+        <t>function</t> <t>declaration</t>.  Local
+        <t>variable</t>s are created at execution time on the stack
+        and have a limited life.  Local <t>variable</t>s go out of
+        existence when they fall out of <em>scope</em> of the
+        executing process.
+      </p>
+    </section>
+  </section>
+
+  <section name="Statements">
+    <p>
+      <t>Statement</t>s are responsible for <t>program</t> flow control and
+      thus direct the execution path.  <t>Function</t> Calls and <em>short
+      circuiting</em> <t>Boolean</t>
+      <t>expression</t>s can also affect <t>program</t> flow.
+    </p>
+
+    <grammar name="Statement" break="true"><or break="true">
+      <cat><t>Expression</t><s>;</s></cat>
+      <t>Block</t>
+      <t>If</t>
+      <t>Foreach</t>
+      <t>For</t>
+      <t>While</t>
+      <t>Switch</t>
+      <t>Break</t>
+      <t>Continue</t>
+      <t>Return</t>
+      <t>Try</t>
+      <t>Throw</t>
+      <t>Redirect</t>
+      <t>Empty</t>
+      <t>Native</t>
+    </or></grammar>
+
+    <section name="Append">
+      <p>
+        In XmlPL appending to the current target output stream is the
+        default behavior.
+      </p>
+
+      <p>
+        <t>Expression</t>s evaluated as standalone <t>Statement</t>s
+        are treated as append <t>statement</t>s.  <t>Assignment</t> and
+        Iterator <t>expression</t>s are exceptions to this rule.
+        If a <em>target output stream</em> has not been declared
+        append <t>statement</t>s will cause a compiler warning to be
+        generated.
+      </p>
+
+      <p>
+        The target output stream is declared either with a
+        <t>function</t> with a <em>sequence</em> <t>return</t>
+        <t>type</t> or a <t>Redirect</t> <t>statement</t>.  In the
+        presence of a valid target output stream <t>Function</t> Calls
+        which <t>return</t> a non-void value, but  should not append
+        to the target stream, must be <t>cast</t> to
+        <k>void</k> or have their value captured by an
+        <t>Assignment</t>.
+      </p>
+
+      <p>
+        The result <t>type</t> of an append
+        <t>statement</t> must be compatible with the target output
+        stream's <t>type</t> otherwise a compiler error will be generated.
+      </p>
+    </section>
+
+    <section name="Block">
+      <grammar name="Block">
+        <s>{</s> <star><or>
+          <t>Variable</t>
+          <t>Statement</t>
+        </or></star>
+        <s>}</s>
+      </grammar>
+
+      <p>
+        A <t>block</t> <t>statement</t> is used to indicate that a
+        <t>sequence</t> of <t>statement</t>s should be executed
+        together and in order.
+        <t>Block</t> <t>statement</t>s create a new lower scope in
+        which new
+        <t>variable</t>s can be declared and may even, by reusing a
+        previously declared name, shadow <t>variable</t>
+        <t>declaration</t>s made at a higher scope.  <t>Variable</t>s
+        declared in the same scope must have unique <t>name</t>s
+        otherwise a compiler error will be generated.
+      </p>
+    </section>
+
+    <section name="If and Else">
+      <grammar name="If">
+        <k>if</k>
+        <s>(</s><t>Expression</t><s>)</s>
+        <t>Statement</t>
+        <option>
+          <k>else</k>
+          <t>Statement</t>          
+        </option>
+      </grammar>
+
+      <p>
+        <t>If</t> <t>statement</t>s provide conditional
+        execution. First the
+        <t>parenthesized</t>
+        <t>expression</t> is evaluated.  The result of this evaluation
+        is <t>cast</t> to a <k>boolean</k>.  If the result is true,
+        the <t>if</t>
+        <t>statement</t> is executed.  An optional <k>else</k>
+        <t>statement</t> is executed if the <t>expression</t> was
+        <k>false</k>.
+      </p>
+    </section>
+
+    <section name="Loops: While, Foreach and For">
+      <p>
+        Loop <t>statement</t>s make it possible to execute a
+        <t>statement</t> repeatedly.  Loop execution can be effected by
+        <t>Break</t>, Continue, <t>Return</t> and <t>Throw</t>
+        <t>statement</t>s which occurring in the loops child
+        <t>statement</t> a.k.a. the <em>loop body</em>.
+      </p>
+
+      <grammar name="While">
+        <k>while</k>
+        <s>(</s><t>Expression</t><s>)</s>
+        <t>Statement</t>
+      </grammar>
+
+      <p>
+        The <t>While</t> loop is the simplest loop
+        <t>statement</t>. First its <t>parenthesized</t> <t>expression</t> is
+        evaluated.  If true, the
+       <t>statement</t> or body of the <t>While</t> loop is executed.
+        Then the <t>expression</t> is reevaluated and if still <k>true</k> the
+        <t>statement</t> is executed again.  This continues and will
+        result in an <em>infinite loop</em> unless  either one of four
+        <em>termination conditions</em> occurs:
+      </p>
+
+      <ol>
+        <li>The <t>expression</t> evaluates to <k>false</k>.</li>
+        <li>
+          A <t>Break</t> or <t>Return</t> <t>statement</t> is encountered in
+          the body of the loop.
+        </li>
+        <li>
+          An exception is thrown either in the loop or in a <t>Function
+          Call</t>.
+        </li>
+        <li>The <t>program</t> is otherwise terminated by a signal, system
+        crash or nuclear strike.</li>
+      </ol>
+
+      <grammar name="Foreach" break="true">
+        <k>foreach</k>
+        <s>(</s><t>Expression</t><s>)</s>
+        <t>Statement</t>
+      </grammar>
+
+      <p>
+        <t>Foreach</t> <t>statement</t>s are used to loop over
+        <t>sequence</t>s.  First the
+        <t>parenthesized</t> <t>expression</t> is evaluated.  If
+        <t>expression</t> evaluation results in a non-sequence
+        <t>type</t> the result is <t>cast</t> to a <t>sequence</t> of
+        that <t>type</t>.  The body of the loop, unless interrupted,
+        is evaluated once for each of the items in the
+        <t>sequence</t> starting from the beginning.  If the resulting
+        <t>sequence</t> is empty the loop is not evaluated.  At each
+        pass the special <em>context variable</em>, represented by the
+        <s>.</s> symbol is set to the value of the corresponding item
+        in the <t>sequence</t>.  Execution continues until either the
+        end of the <t>sequence</t> is reached or termination
+        conditions 2, 3, or 4, as described above in <t>While</t> loop
+        evaluation, are encountered.
+      </p>
+
+      <grammar name="For" break="true">
+        <k>for</k>
+        <s>(</s>
+        <option><t>Expression</t></option><s>;</s>
+        <option><t>Expression</t></option><s>;</s>
+        <option><t>Expression</t></option>
+        <s>)</s>
+        <t>Statement</t>
+      </grammar>
+
+      <p>
+        <t>For</t> loop evaluation is best explained as a series of steps:
+      </p>
+      <ol>
+        <li>
+          The first or <em>initial</em> <t>expression</t> is evaluated.
+          This <t>expression</t> usually has a <em>side effect</em>, but
+          may also be empty. The result is discarded.
+        </li>
+        <li>
+          The second or <em>condition</em> <t>expression</t> is evaluated and
+          its result is <t>cast</t> to a <k>boolean</k>.  If the result is
+          <k>false</k>
+          loop execution terminates.  An empty <t>expression</t> is evaluated
+          as <k>true</k>.
+        </li>
+        <li>
+          The loop <t>statement</t> is executed.  If termination condition 2,
+          3, or 4 occurs, as described in <t>While</t> loop evaluation is
+          encountered, loop execution terminates.
+        </li>
+        <li>
+          The third or <em>iteration</em> <t>expression</t> is evaluated.  This
+          <t>expression</t> should have a <em>side effect</em>.  Normally,
+          this <t>expression</t> iterates a counter which effects
+          <em>condition</em>
+          <t>expression</t> evaluation.  The <t>expression</t> may also be
+          empty.  Its result is discarded.
+        </li>
+        <li>
+          Loop evaluation continues at step 2.
+        </li>
+      </ol>
+    </section>
+
+    <section name="Switch and Case">
+      <grammar name="Switch">
+        <k>switch</k>
+        <s>(</s><t>Expression</t><s>)</s>
+        <s>{</s>
+        <star><t>Case</t></star>
+        <option><t>Default</t></option>
+        <s>}</s>
+      </grammar>
+
+      <p>
+        <t>Switch</t> <t>statement</t>s evaluate certain <t>case</t>
+        <t>statement</t>s depending on the result of evaluating the
+        <t>parenthesized</t> <t>expression</t>.  Once the
+        <t>expression</t> is evaluated, if the resulting <t>type</t>
+        is an
+        <k>integer</k> then the <em>switch type</em> is
+        <k>integer</k>.  If the resulting <t>type</t> is or can be
+        <t>cast</t> to a
+        <k>string</k> then the <em>switch type</em> is <k>string</k>.
+        Any other <t>type</t>s will cause a compiler error.
+      </p>
+
+      <p>
+        The <t>switch</t> <t>statement</t> will compare the result
+        value to each of the <t>case</t> <t>statement</t>s and execute
+        the matching <k>case</k>.  If no <t>case</t> matches the
+        <k>default</k> <t>case</t> is executed.  If no
+        <t>default</t> <k>case</k> exists and no <t>case</t>s matched
+        the <t>expression</t> result then nothing is executed.
+      </p>
+
+      <p>
+        In practice the compiler is usually able to better than
+        comparing the result <t>expression</t> to each
+        <k>case</k>.  The result is the same, but <t>switch</t>
+        <t>statement</t>s are often more efficient than a series of
+        <t>If</t> Else <t>statement</t>s and certainly less typing.
+      </p>
+
+      <p>
+        Unlike C, C++ and Java, XmlPL supports <t>string</t> switches.
+        These are very useful for switching based on <t>Element</t> or
+        <t>Attribute</t>
+        <t>name</t> among other things.  <span class="flux">The
+        compiler can arrange <k>string</k>
+        <t>case</t>s into a binary search tree.  This can greatly
+        reduces the number of <k>string</k> compares in large
+        <t>switch</t> <t>statement</t>s.</span>
+      </p>
+
+      <grammar name="Case">
+        <k>case</k><t>Case Constant</t><s>:</s>
+        <star><t>Statement</t></star>
+      </grammar>
+      <grammar name="Case Constant"><or>
+        <t>INTEGER</t>
+        <t>STRING</t>
+      </or></grammar>
+      <p>
+        <t>Case Constant</t>s must be unique within a <t>switch</t>
+        <t>statement</t>.  It is not allowed to mix <k>integer</k> and
+        <k>string</k> <t>case</t>s.  More concisely, <t>Case
+        Constant</t>s <b>must</b> match the result
+        <t>type</t> of the <t>switch</t> <t>expression</t>.
+      </p>
+
+      <p>
+        If a <t>case</t> <t>statement</t> matches the <t>switch</t>
+        expression's value the first
+        <t>statement</t>, if any, following the <t>case</t> is
+        executed.  Execution continues until either a <t>Break</t> or
+        <t>Return</t> <t>statement</t> is encountered, an
+        <k>exception</k> is thrown or the end of the <t>switch</t>
+        <t>statement</t> is reached.  Execution can pass on from one
+        <t>case</t> <t>statement</t> to the next if <t>switch</t>
+        execution is not otherwise terminated.  This makes it possible
+        to group <t>case</t>s together and execute the same
+        <t>statement</t>s if any one of the <t>case</t>s are matched.
+        It is also possible to pass from a <t>case</t> on to the
+        <k>default</k>
+        <k>case</k>.
+      </p>
+
+      <grammar name="Default">
+        <k>default</k><s>:</s>
+        <star><t>Statement</t></star>
+      </grammar>
+
+      <p>
+        A <k>default</k> <t>case</t> is not required but must occur last.
+      </p>
+    </section>
+
+    <section name="Break, Continue and Return">
+      <p>
+        <t>Break</t>, <t>Continue</t> and <t>Return</t> along with
+        <t>Throw</t> <t>Statement</t>s effect
+        <t>program</t> flow by interrupting the execution of their
+        parent
+        <t>Statement</t>s.
+      </p>
+
+      <grammar name="Break">
+        <k>break</k><s>;</s>
+      </grammar>
+
+      <p>
+        <t>Break</t> <t>Statement</t>s are only allowed within
+        <em>interruptible</em>
+        <t>statement</t>s such as the loop <t>statement</t>s While,
+        <t>Foreach</t> and <t>For</t> and in <t>Switch</t>
+        <t>statement</t>s.  It is an error for a <t>Break</t>
+        <t>Statement</t> to occur anywhere else.  When <t>program</t>
+        execution encounters a <t>Break</t> <t>Statement</t> execution
+        of the closest <em>interruptible</em> parent <t>statement</t>
+        is stopped immediately.  Execution proceeds immediately after
+        the interrupted <t>statement</t>.
+      </p>
+
+      <p>
+        A <t>Break</t> <t>statement</t> applies only to one
+        <em>interruptible</em> parent <t>statement</t>.
+      </p>
+
+      <grammar name="Continue">
+        <k>continue</k><s>;</s>
+      </grammar>
+
+      <p>
+        The <t>continue</t> <t>statement</t> only applies to the loop
+        <t>statement</t>s While, <t>Foreach</t> and <t>For</t> and
+        cannot occur anywhere else in the
+        <t>program</t>.  In all cases execution of the loop
+        <t>statement</t> stops immediately.  How execution proceeds
+        varies slightly for the different loop types.
+      </p>
+
+      <p>
+        In a <t>while</t> loop the condition <t>expression</t> is
+        reevaluated and if
+        <k>true</k> the loop body is executed again from the top.
+      </p>
+
+      <p>
+        The <t>foreach</t> loop moves on to the next item in the
+        <t>sequence</t> it is processing.  If the end of the
+        <t>sequence</t> has been reached execution stops.  Otherwise
+        the loop is executed again from the top with the context set
+        to the next value.
+      </p>
+
+      <p>
+        In a <t>for</t> loop the <em>condition</em> <t>expression</t>
+        is reevaluated.  If the result is <k>false</k> loop execution
+        is complete.  If <k>true</k> the <em>iteration</em>
+        <t>expression</t> is evaluated and the loop body is executed
+        again from the top.
+      </p>
+
+      <grammar name="Return">
+        <k>return</k><option><t>Expression</t></option><s>;</s>
+      </grammar>
+
+      <p>
+        When a <t>return</t> <t>statement</t> is encountered execution
+        of the current
+        <t>function</t> terminates after possibly evaluating the
+        <t>return</t> <t>expression</t>.
+      </p>
+
+      <p>
+        The <t>return</t> <t>expression</t> must match the
+        <t>return</t> <t>type</t> of the current <t>function</t>.  If
+        the <t>function</t> <t>return</t> <t>type</t> is <k>void</k>
+        or a <t>sequence</t> <t>type</t> then a <t>return</t>
+        <t>expression</t> is not allowed otherwise it is required.
+        The value of the <t>return</t> <t>expression</t> if any will
+        be the resulting value of the <t>function call</t>
+        <t>expression</t> which called the current <t>function</t>.
+      </p>
+    </section>
+
+    <section name="Throw, Try and Catch">
+      <p>
+        <t>Throw</t>, <t>Try</t> and Catch <t>statement</t>s are used
+        for <k>exception</k> processing.
+      </p>
+
+      <grammar name="Throw">
+        <k>throw</k><t>Expression</t><s>;</s>
+      </grammar>
+
+      <p>
+        <t>Throw</t> <t>statement</t>s generate exceptions.  First the
+        <t>expression</t> is evaluated.  If the <t>expression</t> does
+        not result in an <k>exception</k> value it is <t>cast</t> to
+        an <k>exception</k> if possible.  If the result value cannot
+        be <t>cast</t> to an <k>exception</k> an error will be
+        generated at compile time.  Immediately after the
+        <t>expression</t> is evaluated and possibly <t>cast</t> the
+        <k>exception</k> is thrown.  The <t>program</t> <em>call
+        stack</em> will begin to <em>unwind</em> until either a parent
+        <k>catch</k> <t>statement</t> is encountered or the top of the
+        <t>program</t> is reached in which case the <t>program</t> is
+        terminated with an error.
+      </p>
+
+      <grammar name="Try">
+        <k>try</k>
+        <t>Block</t>
+        <k>catch</k>
+        <t>Block</t>
+      </grammar>
+
+      <p>
+        <t>Try</t> <t>statement</t>s are used to <k>catch</k> thrown
+        <k>exception</k>s.  When a
+        <t>Try</t> <t>statement</t> is encountered the <em>try
+        block</em> is executed.  If an <k>exception</k> is thrown
+        during execution of the <em>try block</em> the <em>call
+        stack</em> will begin to <em>unwind</em> if no other
+        <t>Try</t> <t>statement</t> is encountered first the
+        <em>unwind</em> will be stopped.  Then execution will proceed
+        with the <em>catch block</em>.  If no <k>exception</k> is
+        thrown in the <t>try</t> <t>block</t> the <k>catch</k>
+        <t>block</t> is never executed.
+      </p>
+
+      <p>
+        During <em>catch block</em> execution, the <em>context
+        variable</em> will be set to the thrown <k>exception</k>.  The
+        <em>catch block</em> can either handle the <k>exception</k> or
+        rethrow it. In either case once the <em>catch block</em> is
+        finished the <t>Try</t> <t>statement</t> is complete.
+      </p>
+
+      <p>
+        Only one <k>catch</k> is allowed or necessary because XmlPL,
+        for simplicities sake, only supports one
+        <k>exception</k> <t>type</t>.
+      </p>
+    </section>
+
+    <section name="Redirect">
+      <grammar name="Redirect">
+        <k>redirect</k>
+        <s>(</s><t>Expression</t><s>)</s>
+        <t>Statement</t>
+      </grammar>
+
+      <p>
+        <t>Redirect</t> <t>statement</t>s are used to set the current
+        <em>target</em> output stream.  When encountered first the
+        <t>parenthesized</t>
+        <t>expression</t> is evaluated.  If it does not evaluate to an
+        <em> output stream</em> <t>type</t> and cannot be <t>cast</t>
+        to one a compile time error will occur.  Otherwise, the
+        current <em>target</em> is set to the resulting <em>output
+        stream</em>.  The <t>statement</t> is then executed.
+      </p>
+
+      <p>
+        If any append <t>statement</t>s are encountered they will
+        append to the newly set <em>target output stream</em> unless
+        further redirected at a lower level.  Append <t>statement</t>s
+        must match the <em>output stream</em> <t>type</t> or be
+        castable to that <t>type</t>.
+      </p>
+
+      <p>
+        <t>Redirect</t> <t>statement</t>s do not effect
+        <t>function</t> <t>Return</t> <t>type</t>.
+      </p>
+    </section>
+
+    <section name="Empty">
+      <grammar name="Empty">
+        <s>;</s>
+      </grammar>
+
+      <p>
+        To quote the compiler, 'Use of the <t>Empty</t>
+        <t>statement</t> is not necessary or recommended'.  Its main
+        purpose is to detect accidental <s>;</s> symbols.  To create a
+        loop with no body use a <t>continue</t> <t>statement</t>
+        instead.  All other <t>statement</t>s are pointless with out a
+        body.  A compiler warning will be generated if the
+        <t>Empty</t> <t>statement</t> is encountered.
+      </p>
+    </section>
+  </section>
+
+  <section name="Expressions">
+    <p>
+      <t>Expression</t>s are evaluated to yield values.  Every
+      <t>expression</t> has a result <t>type</t>.  This is the data
+      <t>type</t> of the value resulting from evaluating the
+      <t>expression</t>.  The result <t>type</t> of an
+      <t>expression</t> is known at compile time.  This is known as
+      <em>static typing</em>.
+    </p>
+
+    <grammar name="Expression" break="true"><or break="true">
+      <t>Assignment</t>
+      <t>Sequence</t>
+      <t>XML</t>
+      <t>Boolean</t>
+      <t>Bit</t>
+      <t>Relational</t>
+      <t>Shift</t>
+      <t>Arithmetic</t>
+      <t>Sign</t>
+      <t>Cast</t>
+      <t>Iterator</t>
+      <t>Path</t>
+      <t>Release</t>
+      <t>Filter</t>
+      <t>Context Step</t>
+      <t>Constant</t>
+      <t>Function Call</t>
+      <t>Variable Reference</t>
+      <t>Parenthesized</t>
+      <t>Context</t>
+    </or></grammar>
+
+    <section name="Side Effects">
+      <p>
+        Most <t>expression</t>s have no <em>side effects</em> when evaluated.
+        In other words their evaluation does not change the value of
+        any <t>variable</t>s or effect any system resources.
+      </p>
+
+      <p>
+        Exceptions to this general rule are <t>assignment</t> and
+        iterator
+        <t>expression</t>s.  <t>Expression</t>s which append to the
+        current <em>target output stream</em> could also be considered
+        exceptions to the rule but these are really <t>statement</t>s.
+        Additionally, <t>function call</t> <t>expression</t>s can also
+        indirectly cause <em>side effects</em>.
+      </p>
+    </section>
+
+    <section name="Operators">
+      <p>
+        To understand how <t>expression</t>s are evaluated
+        it is important to understand
+        <a href="http://en.wikipedia.org/wiki/Order_of_operations">
+        precedence</a> and
+        <a href="http://en.wikipedia.org/wiki/Associativity">associativity</a>.
+	These will not be explained here.  There are many other places
+        to find this information.  The table below shows operator precedence
+        and associativity in XmlPL.        
+      </p>
+
+      <table class="table">
+        <caption><b>
+          Operators in XmlPL, listed lowest precedence from the top
+          and the associativity of the
+          <a href="http://en.wikipedia.org/wiki/Binary_operation">binary
+          operators</a>.
+        </b></caption>
+        <tr><th>name</th><th>operators</th><th>associativity</th></tr>
+        <tr>
+          <td>assignment</td>
+          <td><s>=</s>, <s>+=</s>, <s>-=</s>, <s>*=</s>, <s>/=</s>,
+            <s>%=</s>, <s>,=</s></td>
+          <td>right</td>
+        </tr>
+
+        <tr><td>sequence</td><td><s>,</s></td> <td>left</td> </tr>
+        <tr><td>or</td><td><s>||</s></td> <td>left</td> </tr>
+        <tr><td>and</td><td><s>&amp;&amp;</s></td> <td>left</td> </tr>
+        <tr><td>bitwise or</td><td><s>|</s></td> <td>left</td> </tr>
+        <tr><td>xor</td><td><s>%</s></td> <td>left</td> </tr>
+        <tr><td>bitwise and</td><td><s>&amp;</s></td> <td>left</td> </tr>
+        <tr><td>equality</td><td><s>==</s><s>!=</s></td> <td>left</td> </tr>
+        <tr><td>relational</td>
+          <td><s>&lt;</s>, <s>&gt;</s>, <s>&lt;=</s>, <s>&gt;=</s></td>
+          <td>left</td> </tr>
+        <tr><td>shift</td>
+          <td><s>&lt;&lt;</s>, <s>&gt;&gt;</s></td> <td>left</td> </tr>
+        <tr><td>addition</td>
+          <td><s>+</s>, <s>-</s></td> <td>left</td> </tr>
+        <tr><td>multiplicative</td>
+          <td><s>*</s>, <s>/</s>, <s>%</s></td> <td>left</td> </tr>
+        <tr><td>not, sign and compliment</td>
+          <td><s>!</s>, <s>-</s>, <s>+</s>, <s>~</s></td><td>unary</td></tr>
+        <tr><td>cast</td><td><s>(type)</s></td> <td>unary</td> </tr>
+        <tr><td>iterator</td><td><s>++</s>, <s>--</s></td> <td>unary</td> </tr>
+        <tr><td>release</td><td><s>$</s></td> <td>unary</td> </tr>
+        <tr><td>filter</td><td><s>[]</s></td> <td>unary</td> </tr>
+      </table>
+
+      <!-- Explain sub-expression type and result type in XmlPL -->
+    </section>
+
+    <section name="Assignment">
+      <grammar name="Assignment">
+        <t>Expression</t>
+        <t>AssignOp</t>
+        <t>Expression</t>        
+      </grammar>
+
+      <p>
+        <t>Assignment</t> <t>expression</t>s are one of the few
+        <t>expression</t>s that produce a side effect. Unlike most
+        <em>binary <t>expression</t>s</em> the right-hand
+        <t>expression</t> is evaluated first then the left.  The
+        resulting <t>expression</t> <t>type</t> is that of the
+        left-hand <t>expression</t>.
+      </p>
+
+      <p>
+        The left-hand <t>expression</t> must evaluate to a single
+        non-constant value.  Examples of this are non-constant
+        <t>variable</t> references and <t>sequence</t> item
+        <t>assignment</t> via a <t>filter</t> <t>expression</t> with
+        <k>integer</k> <t>predicate</t>.  Other results will cause a
+        compile-time error.
+      </p>
+
+      <p>
+        The result of evaluating the left-hand <t>expression</t> is
+        assigned the value of the result of evaluating the right-hand
+        <t>expression</t>.  If the
+        <t>type</t>s are not the same the right-hand <t>expression</t>
+        is <t>cast</t> to the left-hand expression's <t>type</t> if
+        possible.  Otherwise a compile-time error is generated.
+      </p>
+
+      <p>
+        Since the right-hand <t>expression</t> is evaluated first the
+        original value of the left-hand <t>expression</t> can be used
+        in computing the new value.
+      </p>
+
+      <grammar name="AssignOp" break="true"><or>
+        <s>=</s>
+        <s>+=</s>
+        <s>-=</s>
+        <s>*=</s>
+        <s>/=</s>
+        <s>%=</s>
+        <s>,=</s>
+      </or></grammar>
+
+      <p>
+        The <s>=</s> is the only true <t>assignment</t> operator.  The others
+        are <a href="http://en.wikipedia.org/wiki/Syntactic_sugar">syntactic
+        sugar</a> for <inline>x = x &lt;op&gt; (y)</inline>
+        where the original <t>expression</t>s is of the form
+        <inline>x &lt;op&gt;= y</inline>.
+      </p>
+
+      <p>
+        All of these operators occur in C, C++ and Java except
+        <s>,=</s> where the <t>expression</t> <inline>x ,= y</inline>
+        means, append y to <t>sequence</t> x.  In this special case y
+        is not <t>cast</t> to the <t>sequence</t> <t>type</t> x, but
+        if necessary it is <t>cast</t> to the
+        <t>sequence</t> sub-type of x.
+      </p>
+    </section>
+
+
+    <section name="Sequence">
+      <grammar name="Sequence">
+        <t>Expression</t> <plus>
+          <s>,</s>
+          <t>Expression</t>
+        </plus>
+      </grammar>
+
+      <p>
+        <t>Sequence</t> <t>expression</t>s are used to create
+        <t>sequence</t>s.  <t>Sequence</t>
+        <t>expression</t>s are evaluated from left to right.  The
+        resulting
+        <t>expression</t> <t>type</t> is a <t>sequence</t> of the
+        left-hand <t>expression</t> <t>type</t>.  the right-hand
+        <t>expression</t> is <t>cast</t> to the left-hand <t>type</t>
+        if possible.
+      </p>
+
+      <!-- What happens when a null is appended to a sequence? -->
+      <p>
+        A <t>sequence</t> <t>expression</t> cannot create a
+        <t>sequence</t> of <t>sequence</t>s.  If either or both of the
+        sub-expressions results in a <t>sequence</t> then the final
+        result is a <t>sequence</t> which is the concatenation of the
+        two sub-expressions.
+      </p>
+
+      <p>
+        If the right-hand <t>expression</t> results in a
+        <t>sequence</t> that is not the same <t>type</t> as the
+        <t>sequence</t> <t>expression</t> <t>type</t> an attempt will
+        be made to <t>cast</t> the items of the right-hand
+        <t>sequence</t> to the sub-type of the <t>sequence</t>
+        <t>expression</t>.  If this is not possible a compile time
+        error will be generated.
+      </p>
+    </section>
+
+
+    <section name="XML">
+      <grammar name="XML" break="true"><or break="true">
+        <t>Element</t>
+        <t>Comment</t>
+        <t>Processing Instruction</t>
+      </or></grammar>
+
+      <p>
+        XML <t>expression</t>s make it possible to inline XML data in
+        XmlPL with some exceptions.  <t>Element</t> bodies are treated
+        as a <t>Block</t> of <t>statement</t>s and some characters are
+        treated specially in
+        <t>Comment</t>s and <t>Processing Instruction</t>s.  XML
+        <t>declaration</t>s beginning with a <s>&lt;!</s> symbol,
+        cdata sections and entity references are not supported.  These
+        constructs are not really necessary and greatly complicate XML
+        processing.  A correct implementation of XmlPL will however
+        accept any valid XML as defined by the <a
+        href="http://www.w3.org/TR/REC-xml/">Extensible Markup
+        Language (XML) 1.0</a> specification.  Unsupported
+        <t>element</t>s are simply dropped or, in the case of cdata
+        sections and entity references, converted to <k>text</k>.
+      </p>
+
+      <p>
+        A consequence of these restrictions is that DTDs are not supported.
+        DTDs are unfortunately still widely used, but obsolete in the
+        presence of technologies such as
+        <a href="http://en.wikipedia.org/wiki/XML_schema">XML Schema</a> and
+        <a href="http://en.wikipedia.org/wiki/RelaxNG">RelaxNG</a>.  DTDs
+        can easily be converted in to other formats using free tools such as
+        <a href="http://freshmeat.net/projects/nekodtd/">NekoDTD</a>
+      </p>
+
+      <section name="Element">
+        <grammar name="Element" break="true">
+          <s>&lt;</s>
+          <t>NameOrExpr</t>
+          <star><t>Attribute</t></star>
+          <or break="true">
+            <s>/&gt;</s>
+            <cat>
+              <s>&gt;</s>
+              <star><t>Statement</t></star>
+              <s>&lt;/</s>
+              <option><t>NAME</t></option>
+              <s>&gt;</s>
+            </cat>
+          </or>
+        </grammar>
+        <grammar name="NameOrExpr"><or>
+          <t>NAME</t>
+          <t>Parenthesized</t> </or></grammar>
+
+        <p>
+          <t>Element</t>s are the most basic building block of XML
+          data.  In XmlPL <t>Element</t>s may be simply written
+          explicitly as in an XML document or they may be annotated
+          with <t>expression</t>s which dynamicly create the
+          <t>element</t> name and <t>attribute</t>s at runtime.
+        </p>
+
+        <p>
+          Both <t>Element</t> long and short forms are supported.  In
+          the sort form the <t>Element</t> has no children and is
+          terminated with a
+          <s>/&gt;</s> rather than an end tag.
+        </p>
+
+        <p>
+          In the long form an <t>Element</t> contains a <t>block</t>
+          of <t>statement</t>s.  If <t>Statement</t>s other than
+          Append <t>statement</t>s are used the
+          <t>Element</t> is a <t>Statement</t> rather than an
+          <t>Expression</t> and cannot occur as a sub-expression.
+          Append
+          <t>statement</t>s within an <t>Element</t> are redirected to
+          the parent
+          <k>element</k>.
+        </p>
+
+        <p>
+          A consequence of this is that, unlike in real XML,
+          <k>text</k> strings must be quoted.  However, this gives the
+          developer precise control over white-space which otherwise
+          can be problematic.  This results in XmlPL <t>program</t>s
+          producing smaller, but unformatted XML data which is
+          generally preferable because of the space savings, but can
+          be difficult to read.  This can easily be solved using tools
+          like <a
+          href="http://www.w3.org/People/Raggett/tidy/">tidy</a>, <a
+          href="http://xmlsoft.org/xmllint.html">xmllint</a> or by
+          simply creating your own XML pretty printer in XmlPL.
+        </p>
+
+        <p class="flux">
+          The closing <t>Element</t> tag must match the opening one
+          unless a <t>Element</t> name <t>expression</t> is used in
+          which case no closing
+          <t>name</t> is required.
+        </p>
+      </section>
+
+      <section name="Attribute">
+        <grammar name="Attribute">
+          <t>NameOrExpr</t><s>=</s>
+          <or><t>STRING</t><t>Parenthesized</t></or>
+        </grammar>
+
+        <p>
+          <t>Attribute</t>s can be set in an <t>Element</t> in one of
+          two ways.  Either by explicit <t>attribute</t> construction
+          via the above grammar production or through an append
+          <t>statement</t>.  For this reason <t>Element</t>
+          <t>expression</t>s are not committed to the output stream
+          until either the first non-attribute child is encountered or
+          the <t>Element</t> is ended.
+        </p>
+
+        <p>
+          In the first case both <t>attribute</t> name and value can
+          be simple <t>constant</t> values or <t>expression</t>s which
+          are evaluated at runtime.
+        </p>
+
+        <p>
+          In the second case <t>attribute</t> appends must occur
+          before the first non-attribute append <t>statement</t>
+          otherwise they will be
+          <t>cast</t> to strings and append as XML <k>text</k>.  This
+          allows for programmatic generation of <t>attribute</t>s.
+        </p>
+
+        <p>
+          In all cases if an <t>attribute</t> is set more than once
+          the last value is the one that will stick.
+        </p>
+      </section>
+
+      <section name="Comment">
+        <grammar name="Comment" break="true">
+          <s>&lt;!--</s>
+          <star><or>
+            <star><dot/></star><t>Parenthesized</t>
+          </or></star>
+          <s>--&gt;</s>
+        </grammar>
+
+        <p>
+          XML <t>Comment</t>s can contain <t>parenthesized</t>
+          <t>expression</t>s which are evaluated and <t>cast</t> to
+          <k>string</k>.  The resulting
+          <t>comment</t> is the concatenation of the explicit
+          <k>text</k> and the result values of the <t>expression</t>s.
+        </p>
+
+        <p>
+          Neither the <s>((</s> or <s>--&gt;</s> symbols are allowed
+          in explicit <k>text</k>. <s>((</s> is interpreted as a
+          single <s>(</s> in explicit <t>comment</t> <k>text</k>.
+        </p>
+      </section>
+
+      <section name="Processing Instruction">
+        <grammar name="Processing Instruction" break="true">
+          <s>&lt;?</s>
+          <or><t>NAME</t><t>Parenthesized</t></or>
+          <star><or>
+            <cat><star><dot/></star><minus/><s>?&gt;</s></cat>
+            <t>Parenthesized</t>
+          </or></star>
+          <s>?&gt;</s>
+        </grammar>
+
+        <p>
+          <t>Processing Instruction</t> <t>expression</t>s like
+          <t>Element</t>s can either contain an explicit XML
+          <t>name</t> or an <t>expression</t>.  In the <t>case</t> of
+          an <t>expression</t> it must evaluate to a <k>string</k> or
+          be castable to a <k>string</k>.
+        </p>
+
+        <p>
+          <t>Processing Instruction</t> data is processed in the same
+          way as
+          <t>Comment</t> <k>text</k> with the exception that explicit
+          <k>text</k> may not contain the <s>?&gt;</s> symbol but may
+          contain <s>--&gt;</s> symbols.
+        </p>
+      </section>
+    </section>
+
+    <section name="Boolean">
+      <grammar name="Boolean" break="true"><or break="true">
+        <cat>
+          <t>Expression</t>
+          <or>
+            <s>||</s>
+            <s>&amp;&amp;</s>
+          </or>
+          <t>Expression</t>
+        </cat>
+        <cat>
+          <s>!</s>
+          <t>Expression</t>
+        </cat>
+      </or></grammar>
+
+      <p>
+        <t>Boolean</t> <t>expression</t>s always result in a
+        <k>boolean</k> value.  An <s>||</s> <em>or</em>
+        <t>expression</t> has a <k>true</k> result if either of the
+        sub-expressions is <k>true</k> otherwise it is <k>false</k>.
+        Similarly, a <s>&amp;&amp;</s> <em>and</em> <t>expression</t>
+        is <k>true</k> if both sub-expressions are
+        <k>true</k> otherwise it is <k>false</k>.  The <s>!</s>
+        <em>not</em>
+        <t>expression</t> is <k>true</k> if its sub-expression is
+        <k>false</k> and is <k>false</k> otherwise.
+      </p>
+
+      <p>
+        The <t>boolean</t> operators are special in that they perform
+        <em>short-circuit evaluation</em>.  If the left-hand
+        <t>expression</t> of an <t>Or</t> is <k>true</k>, the
+        right-hand
+        <t>expression</t> is not evaluated because the overall result
+        is already known to be <k>true</k>.  If the left-hand
+        <t>expression</t> of an <t>And</t> is <k>false</k> the
+        right-hand <t>expression</t> is not evaluated.
+      </p>
+
+      <p>
+        It is important to be aware of short-circuiting if a
+        right-hand <t>expression</t> is expected to produce a
+        side-effect such as an <t>assignment</t>.
+      </p>
+    </section>
+
+    <section name="Bit">
+      <grammar name="Bit" break="true"><or break="true">
+        <cat>
+          <t>Expression</t>
+          <or>
+            <s>|</s>
+            <s>&amp;</s>
+            <s>^</s>
+          </or>
+          <t>Expression</t>
+        </cat>
+        <cat>
+          <s>~</s>
+          <t>Expression</t>
+        </cat>
+      </or></grammar>
+
+      <p>
+        The <t>Bit</t> operators as the name suggests perform bitwise
+        operations on <t>integer</t>s.  The operators are <s>|</s>
+        <em>bitwise or</em>,
+        <s>&amp;</s> <em>bitwise and</em>, <s>^</s> <em>xor</em>, and
+        <s>~</s> <em>bit complement</em>.
+        <t>Bit</t> <t>expression</t>s always result in an
+        <k>integer</k> value.
+      </p>
+    </section>
+
+    <section name="Relational">
+      <grammar name="Relational">
+        <t>Expression</t>
+        <t>RelOp</t>
+        <t>Expression</t>
+      </grammar>
+      <grammar name="RelOp">
+        <or>
+          <s>==</s>
+          <s>!=</s>
+          <s>&lt;</s>
+          <s>&gt;</s>
+          <s>&lt;=</s>
+          <s>&gt;=</s>
+        </or>
+      </grammar>
+
+      <p>
+        <t>Relational</t> <t>expression</t>s are used to compare two values
+        and always result in a <k>boolean</k> value.  The operators are
+        <s>==</s> <em>equality</em>,
+        <s>!=</s> <em>inequality</em>,
+        <s>&lt;</s> <em>less than</em>,
+        <s>&gt;</s> <em>greater than</em>,
+        <s>&lt;=</s> <em>less than or equal</em> and
+        <s>&gt;=</s> <em>greater than or equal</em>.        
+      </p>
+
+      <p>
+        The sub-expressions of a <t>Relational</t> <t>expression</t>
+        must be comparable or castable to a comparable <t>type</t>
+        such as <k>integer</k>,
+        <k>real</k> or <k>string</k>.  If the left-hand <t>type</t> is
+        not the same as the right-hand <t>type</t> an attempt is made
+        to <t>cast</t> the right-hand <t>type</t> to the left-hand
+        <t>type</t>.  If this is not possible a compiler error will be
+        generated.  <k>string</k>s are compared <a
+        href="http://en.wikipedia.org/wiki/Lexicographical_order">
+        lexicographically</a>.
+      </p>
+      <!-- List comparable types -->
+    </section>
+
+    <section name="Shift">
+      <grammar name="Shift">
+        <t>Expression</t>
+        <or>
+          <s>&lt;&lt;</s>
+          <s>&gt;&gt;</s>
+        </or>
+        <t>Expression</t>
+      </grammar>
+
+      <p>
+        <t>Shift</t> <t>expression</t>s perform bitwise shifts of
+        <k>integer</k> values.  Their sub-expression must be integers
+        or castable to integers.  The result is always an
+        <k>integer</k>.  The operators are <s>&lt;&lt;</s> or <em>left
+        shift</em> and
+        <s>&gt;&gt;</s> or <em>right shift</em>.  Both operators
+        <t>shift</t> the <k>integer</k> result of the left-hand
+        <t>expression</t> by the <k>integer</k> result of the
+        right-hand <t>expression</t> number of bits in the specified
+        direction.  Zeros are shifted in and the bits shifted out are
+        lost.
+      </p>
+    </section>
+
+    <section name="Arithmetic">
+      <grammar name="Arithmetic">
+        <t>Expression</t>
+        <t>ArithOp</t>
+        <t>Expression</t>
+      </grammar>
+      <grammar name="ArithOp"><or>
+        <s>+</s>
+        <s>-</s>
+        <s>*</s>
+        <s>/</s>
+        <s>%</s>
+      </or></grammar>
+
+      <p>
+        <t>Arithmetic</t> <t>expression</t>s provide <s>+</s> or
+        <em>addition</em>,
+        <s>-</s> <em>subtraction</em>,
+        <s>*</s> <em>multiplication</em>,
+        <s>/</s> <em>division</em> and
+        <s>%</s> <em>modulo</em> operations on integers and reals and
+        have the usual mathematical meanings.  Additionally, the
+        <s>+</s> operator can apply to strings in which <t>case</t> it
+        performs
+        <k>string</k> <em>concatenation</em>.
+      </p>
+
+      <p>
+        In XmlPL the <s>-</s> is also a valid identifier character.
+        <inline>x-y</inline> should not be confused as x minus y.  It
+        is an identifier pronounced x dash y.  This is for compatibility
+        with XML <t>name</t>s.  If subtraction is the
+        desired effect the <t>expression</t> should be <inline>x - y</inline>.
+      </p>
+    </section>
+
+    <section name="Sign">
+      <grammar name="Sign">
+        <or>
+          <s>+</s>
+          <s>-</s>
+        </or>
+        <t>Expression</t>
+      </grammar>
+
+      <p>
+        <t>Sign</t> <t>expression</t>s apply to integers and reals and
+        result in an <k>integer</k> or <k>real</k>.  There are two
+        <t>Sign</t> <t>expression</t>s <s>+</s> <em>positive</em> and
+        <s>-</s> <em>negative</em>.  The <em>positive</em>
+        <t>Sign</t> has no effect.  The <em>negative</em> <t>sign</t>
+        inverts the
+        <t>sign</t> of its sub-expression.
+      </p>
+    </section>
+
+    <section name="Cast">
+      <grammar name="Cast">
+        <s>(</s><t>Type</t><s>)</s>
+        <t>Expression</t>
+      </grammar>
+
+      <p>
+        <t>Cast</t> <t>expression</t>s are used to explicitly change
+        the <t>type</t> of an
+        <t>expression</t>.  Many <t>type</t> <t>cast</t>s occur
+        automatically.  <t>Type</t> <t>cast</t>s are necessary to
+        disambiguate calls to overloaded <t>function</t>s, when an
+        automatic <t>cast</t> is not the desired result, when a
+        <t>cast</t> is possible but requires more than one step, or to
+        avoid appending to the target output stream.  Some examples
+        are given below.
+      </p>
+
+      <!-- These examples should be moved out of this document -->
+      <p>
+        Given two
+        <t>function</t> signatures <inline>void f(node x)</inline> and
+        <inline>void f(string x)</inline> and if <em>A</em> is an
+        <t>attribute</t>, the <t>function</t> call <t>expression</t>
+        <inline>f(A)</inline> is ambiguous because <em>A</em> could be
+        <t>cast</t> to either a
+        <k>string</k> or a <k>node</k>.  Rather than guess the
+        compiler will generate an error.  This error can be resolved
+        by casting <em>A</em> to one of the two <t>type</t>s:
+        <inline>f((string)A)</inline>.
+      </p>
+
+      <p>
+        If <em>S</em> is a <k>string</k> <t>variable</t> the
+        comparison <inline>S == true</inline> is <k>true</k> if
+        <em>S</em> is not the empty <k>string</k>.  However, if
+        comparison to the <k>string</k> value of <k>true</k> was
+        desired <inline>S == (string)true</inline> will be <k>true</k>
+        only if <em>S</em> is equal to the <k>string</k> value "true".
+      </p>
+
+      <p>
+        Sometimes a <t>cast</t> from one <t>type</t> to another is
+        possible but not automatic.  This occurs when more than one
+        casting step is required.  For example the <t>expression</t>
+        <inline>@name == "test"</inline> will cause a compiler error
+        because it is not possible to directly <t>cast</t> a
+        <t>attribute</t> <t>sequence</t> to a <k>string</k>.  However
+        an <t>attribute</t> <t>sequence</t> can be <t>cast</t> to a
+        single <t>attribute</t> and an <t>attribute</t> can be
+        <t>cast</t> to a <k>string</k>.  <inline>(attribute)@name ==
+        "test"</inline> fixes the problem.
+      </p>
+    </section>
+
+    <section name="Iteration">
+      <grammar name="Iteration" break="true"><or>
+        <cat><t>IterOp</t><t>Expression</t></cat>
+        <cat><t>Expression</t><t>IterOp</t></cat>
+      </or></grammar>
+      <grammar name="IterOp"><or>
+        <s>++</s>
+        <s>--</s>
+      </or></grammar>
+
+      <p>
+        Iterator <t>expression</t>s apply to integers and
+        <t>sequence</t> iterators.  Their result value depends on
+        whether the operator occurs before or after the
+        <t>expression</t>.  If before the <t>iteration</t> is
+        performed then the <t>expression</t> result is evaluated.  If
+        after the <t>expression</t> result is calculated first then
+        the <t>iteration</t> is performed.
+      </p>
+
+      <p>
+        Iterator <t>expression</t>s are special in that they have a
+        <em>side effect</em> and do not become append
+        <t>statement</t>s when executed standalone.
+      </p>
+    </section>
+
+    <section name="Path">
+      <p>
+        <t>Path</t> <t>expression</t>s are used in XmlPL to query and
+        select XML data.  Those familiar with the <a
+        href="http://www.w3.org">w3.org's</a> <a
+        href="http://www.w3.org/TR/xpath">XPath 1.0</a> should find
+        XmlPL's <t>Path</t> <t>expression</t>s very intuitive.
+        However, they are not the same.  XmlPL <t>Path</t>
+        <t>Expression</t>s are simpler and more compatible with
+        XmlPL's C like syntax.
+      </p>
+
+      <p>
+        XmlPL <t>Path</t> <t>Expression</t>s are also compiled which
+        makes them much faster than most XPath implementations.  Don't
+        be fooled by XPath implementations which claim to compile
+        XPath, but really just build an <t>expression</t> tree.
+      </p>
+
+      <p>
+        Major differences between XmlPL <t>Path</t> <t>Expression</t>s and
+        <a href="http://www.w3.org/TR/xpath">XPath 1.0</a> are noted
+        below.
+
+        <table class="table">
+          <tr><th/><th>XPath 1.0</th><th>XmlPL</th></tr>
+          <tr>
+            <td><a href="http://www.w3.org/TR/xpath#NT-EqualityExpr">
+              Equality operator</a></td>
+              <td>'='</td>
+              <td>'=='</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3.org/TR/xpath#NT-AndExpr">
+              And operator</a></td>
+             <td>'and'</td><td>'&amp;&amp;'</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3.org/TR/xpath#NT-OrExpr">
+              Or operator</a></td>
+             <td>'or'</td> <td>'||'</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3.org/TR/xpath#NT-MultiplicativeExpr">
+              Modulo operator</a></td>
+            <td>'mod'</td><td>'%'</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3.org/TR/xpath#NT-MultiplicativeExpr">
+            Divide operator</a></td>
+            <td>'div'</td><td>'/'</td>
+          </tr>
+          <tr>
+            <td>
+              <a href="http://www.w3.org/TR/xpath#NT-UnionExpr">
+              Union operator</a>
+            </td>
+            <td>'|'</td>
+            <td>
+              not supported directly, the removal of duplicates at each
+              <t>step</t> is inefficient and usually unnecessary.  Use a
+              <t>function</t> to filter duplicates when necessary.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="http://www.w3.org/TR/xpath#NT-AxisName">Axis names</a>
+            </td>
+            <td>supported</td><td>supported indirectly via
+            <t>function</t>s</td>
+          </tr>
+          <tr>
+            <td>Node Test Or'ing (e.g. root/(x|y)/*)</td>
+            <td>only in 2.0</td><td>supported</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3.org/TR/xpath#NT-VariableReference">
+              Reference a <t>Variable</t> x</a></td>
+            <td>$x</td><td>x</td>
+          </tr>
+          <tr>
+            <td>Implicit context (i.e. root[child])</td>
+            <td>allowed</td><td>not allowed. use root[./child]</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3.org/TR/xpath#NT-NodeTest">
+              select <t>processing instruction</t> by name</a></td>
+            <td>root/processing-instruction("name")</td>
+            <td>root/?name</td>
+          </tr>
+        </table>
+      </p>
+
+      <grammar name="Path">
+        <t>Expression</t>
+        <plus><t>Step</t></plus>
+      </grammar>
+
+      <p>
+        A <t>path</t> <t>expression</t> consists of an
+        <t>expression</t> followed by one or more <t>path</t> steps
+        which select parts of the XML <k>document</k>.
+      </p>
+
+      <section name="Steps">
+        <grammar name="Step">
+          <s>/</s><or>
+            <t>Node Test</t>
+            <t>Context Step</t>
+          </or>
+          <option><t>Predicate</t></option>
+        </grammar>
+
+        <p>
+          Each <t>step</t> results in a <t>sequence</t> of XML nodes.
+          These nodes can be filtered by <t>Node Test</t>s and
+          <t>Predicate</t>s.  The default XML axis is the child axis.
+          For example, <inline>x/child</inline> selects all the
+          <t>Element</t>s which are children of <t>element</t>s in the
+          <t>variable</t> x which have the <t>name</t> "child".  Other
+          axes, such as the
+          <t>attribute</t>, parent or <t>processing instruction</t>
+          axes, can be selected with a <t>Context Step</t>.
+        </p>
+
+        <grammar name="Context Step" break="true"><or>
+          <cat><s>@</s><t>Name Test</t></cat>
+          <s>..</s>
+          <cat><s>?</s><t>Name Test</t></cat>
+        </or></grammar>
+
+        <p>
+          The <t>Context Step</t>s are <s>@</s> <em>attribute
+          axis</em>, <s>..</s> <em>parent axis</em> and <s>?</s>
+          <em>processing instruction</em> axis.
+        </p>
+
+        <p>
+          In XmlPL there is no guarantee that the <em>parent axis</em>
+          will <t>return</t> a non-null value.  <em>Parent
+          pointers</em> are so-called weak pointers.  This means a
+          <em>parent pointer</em> is not enough to keep an XML
+          <t>element</t> in memory.  With out a pointer to the
+          <t>element</t> or one of its ancestors, such as the
+          <k>document</k> root, the <t>element</t> may be garbage
+          collected.
+        </p>
+
+        <p>
+          <t>Context Step</t>s are named as such because they can be
+          used with or without specifying a <t>Path</t> context.  This
+          makes it possible to perform operations such as
+          <inline>root/child[@name = "test"]</inline>.  Notice it is
+          not necessary to write <inline>root/child[./@name =
+          "test"]</inline> because with context, <s>.</s>, is implicit
+          with the <s>@</s> step.
+        </p>
+
+        <p>
+          In contrast, to select the "child" <t>element</t>s which
+          have at least one child named "x" specifying the context is
+          necessary: <inline>root/child[./x]</inline>.  With out the
+          context, <inline>root/child[x]</inline>, the
+          <t>statement</t> means select all the "child"
+          <t>element</t>s if the <t>variable</t> "x" is <k>true</k>.
+        </p>
+      </section>
+
+      <section name="Node Tests">
+        <grammar name="Node Test" break="true"><or break="true">
+          <t>Name Test</t>
+          <t>Type Test</t>
+          <cat><s>(</s>
+            <t>Name Test</t><star><s>|</s><t>Name Test</t></star>
+          <s>)</s></cat>
+        </or></grammar>
+
+        <p>
+          <t>Node Test</t>s filter the nodes of a Step.  <t>Name
+          Test</t>s filter nodes by name.  A series of <t>name</t>s
+          can be or'ed together with  parenthesizes and the <s>|</s>
+          operator.  <t>Type test</t>s test the
+          <t>XML type</t> of a <k>node</k>.
+        </p>
+
+        <grammar name="Name Test">
+          <or><t>NAME</t><s>*</s></or>
+          <option>
+            <s>:</s>
+            <or><t>NAME</t><s>*</s></or>
+          </option>
+        </grammar>
+
+        <p>
+          <t>Name Test</t>s filter <t>Path</t> <t>Step</t>s based on
+          <t>element</t>, <t>attribute</t> or
+          <t>processing instruction</t> name.  <t>Name</t>s which do
+          not match are removed from the <t>Path</t> result.
+        </p>
+
+        <grammar name="Type Test">
+          <t>XML Type</t><s>(</s><s>)</s>
+        </grammar>
+
+        <p>
+          <t>Type Test</t>s test XML nodes in <t>Path</t>
+          <t>Expression</t>s for a specific <t>type</t>.  Although
+          they appear to be <t>function</t>s they are not.
+        </p>
+      </section>
+
+      <section name="Predicates">
+        <grammar name="Predicate">
+          <s>[</s>
+          <t>Expression</t>
+          <s>]</s>
+        </grammar>
+
+        <p>
+          <t>Predicate</t>s further filter <t>Path</t> <t>Step</t>s
+          and are executed after
+          <t>Node Test</t>s.  The <t>predicate</t> if any is called
+          once for each <k>node</k> selected by the step.
+        </p>
+
+        <p>
+          During <t>predicate</t> evaluation the <em>context variable</em>
+          <s>.</s> is set the the value of the <k>node</k> being tested.
+        </p>
+
+        <p>
+          If the <t>predicate</t> evaluates to <k>false</k> the
+          <k>node</k> is removed from the <t>path</t> result.  <span
+          class="flux"> In XmlPL there is no guarantee when a
+          <t>predicate</t> will be called.  For example, iterators can
+          call <t>predicate</t>s long after the original <t>Path</t>
+          <t>expression</t> was executed.  In this way
+          <t>predicate</t>s act as a kind of <em>lambda
+          function</em></span>.
+        </p>
+      </section>
+
+      <section name="Result Types">
+        <p>
+          The result <t>type</t> of a <t>Path</t> <t>Expression</t> can be
+          calculated by the
+          compiler to some degree.  The table below shows the result
+          <t>type</t>s of various <t>Path</t> <t>Expression</t>s.
+
+          <table class="table">
+            <tr><th/><th>example</th><th>result type</th></tr>
+            <tr>
+              <td>child axis</td> <td><inline>x/child</inline></td>
+              <td>element[]</td>
+            </tr>
+            <tr>
+	      <td>parent axis</td> <td><inline>x/..</inline></td>
+	      <td>element[]</td>
+            </tr>
+            <tr>
+              <td>attribute axis</td><td><inline>x/@name</inline></td>
+	      <td>attribute[]</td>
+            </tr>
+            <tr>
+              <td>processing instruction axis</td>
+              <td><inline>x/?somename</inline></td> <td>pi[]</td>
+            </tr>
+            <tr>
+              <td>type test</td> <td><inline>x/&lt;type&gt;>()</inline></td>
+              <td>&lt;type&gt;>[]</td>
+            </tr>
+            <tr>
+              <td>attribute axis in predicate</td>
+              <td><inline>@name</inline> in 
+                <inline>x/*[@name == "y"]</inline></td>
+              <td>attribute not attribute[]</td>
+            </tr>
+          </table>
+        </p>
+      </section>
+    </section>
+
+    <section name="Release">
+      <grammar name="Release">
+        <s>$</s><t>Expression</t>
+      </grammar>
+
+      <!-- This needs more clarification -->
+      <p>
+        The <t>Release</t> <t>Expression</t> makes it possible to use a
+        <t>variable</t> value and <t>release</t> its reference in one
+        step.  Unreferenced values can be <em>garbage collected</em>.
+        <t>Release</t> <t>expression</t>s make it possible to control
+        memory usage.
+      </p>
+    </section>
+
+    <section name="Filter">
+      <grammar name="Filter">
+        <t>Expression</t>
+        <s>[</s><t>Expression</t><s>]</s>
+      </grammar>
+
+      <p>
+        <t>Filter</t> <t>expression</t>s work much like
+        <t>Predicate</t>s.  <span class="flux"> There are two modes of
+        operation depending on the <t>type</t> of the right-hand
+        <t>expression</t>.</span>  In either case the left-hand
+        <t>expression</t> must evaluate to a <t>sequence</t>
+        <t>type</t>.
+      </p>
+
+      <p>
+        If the right-hand <t>expression</t> results in an
+        <k>integer</k> then the <t>Filter</t> <t>expression</t> will
+        be interpreted to mean select the item at position x, where x
+        is the result of evaluating the right-hand <t>expression</t>.
+        In this case the result <t>type</t> of the
+        <t>expression</t> will be the sub-type of the <t>sequence</t>
+        on the left-hand side.
+      </p>
+
+      <p class="flux">
+        Otherwise the right-hand <t>expression</t> will be executed
+        once for each item in the <t>sequence</t>.  If the result is
+        <k>true</k> the item will be added to the result
+        <t>sequence</t>.  The result <t>type</t> will be the same as
+        the left-hand <t>expression</t>.
+      </p>
+    </section>
+
+    <section name="Constant">
+      <grammar name="Constant"><or>
+        <t>INTEGER</t>
+        <t>STRING</t>
+        <t>REAL</t>
+        <k>true</k>
+        <k>false</k>
+        <k>null</k>
+      </or></grammar>
+
+      <p>
+        <t>Constant</t> <t>Expression</t>s produce <t>constant</t>
+        integer, real, <k>boolean</k> and
+        <k>null</k> values.
+      </p>
+    </section>
+
+    <section name="Function Call">
+      <grammar name="Function Call">
+        <t>ID</t>
+        <s>(</s><option>
+          <t>Expression</t>
+          <star><s>,</s><t>Expression</t></star>
+        </option><s>)</s>
+      </grammar>
+
+      <p>
+        <t>Function Call</t> <t>expression</t> are used to execute
+        <t>function</t>s which have either been declared directly in
+        the current <t>program</t> or have been imported.  If no
+        <t>function</t> can be found which matches the <t>ID</t> named
+        in the <t>function call</t> an invalid reference error will be
+        generated at compile time.
+      </p>
+
+      <p>
+        The <t>function call</t> sub-expressions must match the
+        <t>argument</t> <t>type</t>s in the <t>function</t>
+        definition.  If a <t>function</t> has been overloaded the
+        compiler uses its information about the <t>type</t> of each
+        sub-expression to select the correct <t>function</t>.  If
+        there is an exact match between sub-expression <t>type</t>s
+        and a specific
+        <t>function</t> definition it will be used.  Otherwise, the
+        compiler tries to match a <t>function</t> by casting
+        sub-expressions to the
+        <t>argument</t> <t>type</t>s.  If, through casting, it is
+        possible to call more than one <t>function</t>, the compiler
+        will generate an <em>ambiguous
+        <t>function call</t></em> error which can be resolved by
+        casting.
+      </p>
+
+      <p>
+        If the <t>function</t> <t>return</t>s a non-void value the
+        <t>function call</t> <t>expression</t> will evaluate to the
+        <t>return</t> value of the <t>function</t>.  Calling a
+        <t>function</t> with <k>void</k> <t>return</t> <t>type</t>
+        from a sub-expression is not allowed.
+      </p>
+    </section>
+
+    <section name="Variable Reference">
+      <grammar name="Variable Reference">
+        <t>ID</t>
+      </grammar>
+
+      <p>
+        <t>Variable Reference</t>s are used to access or change the values of
+        <t>variable</t>s.
+      </p>
+
+      <p>
+        The special <t>variable</t> <s>.</s>, called the context
+        <t>variable</t>, is used in <t>Predicate</t>s, <t>Foreach</t>
+        <t>statement</t>s and Catch <t>block</t>s.
+      </p>
+    </section>
+
+    <section name="Parenthesized">
+      <grammar name="Parenthesized">
+        <s>(</s><t>Expression</t><s>)</s>
+      </grammar>
+
+      <!-- Look at other language docs for a better explanation -->
+      <p>
+        Parentheses are used to group <t>expression</t> together.
+        <t>Parenthesized</t> <t>expression</t>s can change the order
+        in which binary operators are applied.
+      </p>
+    </section>
+  </section>
+
+  <section name="Native Block">
+    <grammar name="Native Block">
+      <k>__native__</k>
+      <cat><star><dot/></star><minus/><k>__native__</k></cat>
+      <k>__native__</k>
+    </grammar>
+
+    <p>
+      <t>Native Block</t>s provide a powerful way to extend XmlPL.  The XmlPL
+      compiler translates XmlPL code to another language.  <span class="flux">
+      Currently only C++.</span>
+      <t>Native Block</t>s allow the programmer to inline code in the
+      native language.  The only restriction is that the native code
+      cannot contain the keyword <k>__native__</k>.
+    </p>
+
+    <p>
+      <t>Native Block</t>s are useful for creating system libraries, but should
+      <b>not</b> be used in portable code.  Since XmlPL can be compiled
+      not only to C++ but also other languages <t>Native Block</t>s are
+      inherently non-portable across languages and only as portable
+      as the native language across different platforms.
+    </p>
+
+    <p>
+      Interaction with the XmlPL runtime and compiler generated code
+      depends on the native language and runtime implementation.
+    </p>
+  </section>
+
+  <section disabled="true" name="Execution Model">
+    <section name="Scope"/>
+    <section name="Memory Management"/>
+    <section name="Call Stack"/>
+    <section name="Execution Order"/>
+    <section name="Target Output Stream"/>
+  </section>
+</section>

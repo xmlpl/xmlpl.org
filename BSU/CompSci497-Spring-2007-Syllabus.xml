@@ -1,0 +1,188 @@
+<html>
+  <head>
+    <style type="text/css" media="all">
+		  h1 {text-align: center; font-size: 22pt}
+		  h2 {font-size: 14pt}
+		  h3 {font-size: 12pt}
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="print.css" />
+	  <title>CompSci497: Spring 2007 Syllabus</title>
+  </head>
+	<body>
+	  <h1>
+      CompSci497<br/>
+      Advanced XML Programming with XmlPL<br/>
+      Spring 2007 Syllabus
+    </h1>
+
+		<br/><br/><br/><br/>
+		<contents/>
+		<br/><br/><br/><br/>
+
+		<section name="Introduction">
+      <p>
+        Welcome to CompSci497: Advanced XML Programming with XmlPL.
+        This is a new course designed to teach you about a new
+        Open-Source programming language, data description languages
+        in general, XML and a touch of software engineering and
+        compiler design.
+      </p>
+
+      <p>
+        Today XML is widely used and accepted as a standard.  Despite
+        this fact few people in the industry seem to really understand
+        what the hype is all about.  This class will attempt to cut
+        through the hype around XML and get to the real reasons XML
+        and data description languages are useful.  You will be
+        introduced to XmlPL, a powerful tool for manipulating XML
+        data.  By the end of the course you should have a solid
+        understanding of XML technologies and a few more tricks in
+        your bag that will make you a better and more marketable
+        software developer.
+      </p>
+		</section>
+
+    <br style="page-break-before:always"/>
+		<section name="Class Format &amp; Grading">
+		  <p>
+			  Class will be held for 8 weeks every Friday, except for
+        February 16th, from 11:40am-1:30pm in room MEC-309.  There
+        will be a 15 minute break from 12:30pm to 12:45pm.
+      </p>
+
+      <p>
+			  Grading will be based on attendance and completion of the
+				programming project.  There is no specific requirement for
+				attendance, but the more class you miss the more you will have
+				to make up in the programming project.  That said, this is
+				only a one credit course so if you attend class regularly the
+				programming project will not be too difficult.  Grading is
+				pass/fail.
+      </p>
+
+      <p>
+        Your programming project must be pre-approved.  For a project
+        to be approved it should be useful, interesting, appropriate
+        for the language, and somewhat challenging.  The program does
+        not have to be long in order to meet these criteria and could
+        be only a few hundred lines.  In addition, your source code
+        must be readable and documented.  You may retain the copyright
+        to your source code, but all projects must be publishable on
+        the XmlPL website under the GPL license.  Deadlines are at the
+				beginning of class on the date declared.  If you cannot think
+        of anything I will be glad to help you choose a project.
+      </p>
+		</section>
+
+    <br style="page-break-before:always"/>
+		<section name="Schedule">
+ 		  <section name="January 19th">
+        <ul>
+          <li>Introductions.</li>
+				  <li>A brief history: XML, SGML, HTML &amp; XHTML.</li>
+          <li>Data description languages, what are they good for?</li>
+          <li>An introduction to XML.</li>
+        </ul>
+      </section>
+
+ 		  <section name="January 26th">
+			  <ul>
+          <li>An Introduction to SAX, DOM, XSLT, &amp; XQuery.</li>
+          <li>A justification for XmlPL.</li>
+          <li>XmlPL architecture.</li>
+        </ul>
+      </section>
+
+ 		  <section name="Febuary 2nd">
+        <ul>
+          <li>Basic XmlPL programming.</li>
+          <li>Producing XML data.</li>
+          <li>Reading XML data.</li>
+          <li>XmlPL Path Expressions</li>
+          <li>Intro to Web Applications with XmlPL</li>
+        </ul>
+      </section>
+
+ 		  <section name="Febuary 9th">
+        <ul>
+          <li>Interfacing with C and C++.</li>
+          <li>Extending XmlPL</li>
+          <li>Programming Project Ideas</li>
+        </ul>
+      </section>
+
+ 		  <section name="Febuary 16th (No Class)"/>
+
+ 		  <section name="Febuary 23th">
+        <ul>
+          <li>Declarations: package, import, function, variable</li>
+          <li>Statements: foreach, switch, try-catch, append, redirect</li>
+          <li>Expressions: </li>
+          <li>Discuss projects</li>
+        </ul>
+      </section>
+
+ 		  <section name="March 2nd">
+        <ul>
+			    <li>Deadline for programming project selection and approval.</li>
+          <li>TBA</li>
+        </ul>
+      </section>
+
+ 		  <section name="March 9th">
+        <ul>
+          <li>TBA</li>
+        </ul>
+      </section>
+
+ 		  <section name="March 16th">
+			  <ul>
+          <li>Programming project due.</li>
+          <li>Each student will give a brief demonstration of their
+          program.</li>
+        </ul>
+      </section>
+		</section>
+
+    <br style="page-break-before:always"/>
+		<section name="Useful Information">
+  		<section name="Links">
+  		  <ul>
+	  		  <li><a class="link" href="http://www.xmlpl.org/CompSci497.html">Class
+	  			Webpage</a></li>
+	  		  <li><a class="link" href="http://www.xmlpl.org/">XmlPL Website</a>
+					</li>
+	  		  <li><a class="link" href="http://www.w3.org/TR/REC-xml/">W3.org's XML
+	  			standard</a>
+          </li>
+		  	  <li><a class="link" href="http://www.sf.net">SourceForge</a></li>
+		  	  <li><a class="link" href="http://www.gnu.org/copyleft/gpl.html">GNU
+		  		Public License (GPL)</a></li>
+		  	  <li><a class="link" href="http://subversion.tigris.org/">Subversion
+		  		Homepage</a>
+          </li>
+			    <li><a class="link" href="http://www.xmlpl.org/links.html">XmlPL
+					links page</a></li>
+		    </ul>
+  		</section>
+
+  		<section name="My Email">
+			  Joseph Coffland - <a href="mailto:joseph@xmlpl.org">
+				joseph@xmlpl.org</a>
+  		</section>
+
+  		<section name="This Document">
+		    <p>This document was created using a simple XmlPL program.</p>
+			  <ul>
+			    <li><a class="link"
+					href="http://www.xmlpl.org/CompSci497/webdoc.xpl">XmlPL
+					Program</a></li>
+			    <li><a class="link" href=
+					"http://www.xmlpl.org/CompSci497/CompSci497-Spring-2007-Syllabus.xml"
+					>Source Document
+		  		</a></li>
+	  		</ul>
+  		</section>
+		</section>
+	</body>
+</html>

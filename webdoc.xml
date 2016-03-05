@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<body xmlns:ws="http://www.xmlpl.org/website"><h2>XmlPL By Example: <ws:title/></h2><intro>
+    <p>
+      This example illustrates using XmlPL to create a Web document
+      formatter.  More specifically, we will create an XmlPL program
+      which reads a simple XML file and produces a web document in
+      <a href="http://en.wikipedia.org/wiki/XHTML">XHTML</a>
+      format with a hyper-linked table of contents and properly numbered
+      sections and subsections.  All in 74 lines of code.
+    </p>
+
+    <p>
+      Normally, this takes a fair amount
+      of manual labor to do in
+      <a href="http://en.wikipedia.org/wiki/XHTML">XHTML</a> alone.
+      This entire website was create using a similar,
+      albeit more complicated, XmlPL program.
+    </p>
+  </intro><h2>Steps</h2><ol><li><a href="#base">Create The Web Page</a></li><li><a href="#input">Create an Input Document</a></li><li><a href="#processor">Create the Processor</a></li><li><a href="#contents">Create the Table of Contents</a></li><li><a href="#sections">Process sections</a></li><li><a href="#compile">Compile &amp; Process</a></li></ol><a name="base"><h2>1. Create The Web Page</h2></a><div class="step">
+    <p>
+      First we use the <em>main</em> function to create a basic
+      Web page.
+    </p>
+
+    <ws:code download="true" href="examples/webdoc/base.xpl" xmlns:ws="http://www.xmlpl.org/website"/>
+
+    <p>
+      You could also include a
+      <a href="http://en.wikipedia.org/wiki/Cascading_Style_Sheets">style
+      sheet</a> in the <em>head</em>.
+    </p>
+  </div><a name="input"><h2>2. Create an Input Document</h2></a><div class="step">
+    <p>
+      Notice we are already make some assumptions about the input
+      file.  Lets create an input file now so we have some data to process.
+      We will use a little
+      <a href="http://en.wikipedia.org/wiki/Lorem_ipsum">Lorem ipsum</a>
+      to fill the space.
+    </p>
+
+    <ws:code height="20em" download="true" href="examples/webdoc/input.xml" xmlns:ws="http://www.xmlpl.org/website"/>
+
+    <p>
+      The only tags we will concern our selves with are the <em>webdoc</em>,
+      <em>contents</em>, and <em>section</em> tags.  The other tags are
+      standard <a href="http://en.wikipedia.org/wiki/XHTML">XHTML</a> and will
+      be copied verbatim into the output document.
+    </p>
+
+    <p>
+      Build the program and process the input file using the following
+      commands:
+    </p>
+
+    <ws:code href="examples/webdoc/build_and_process.txt" xmlns:ws="http://www.xmlpl.org/website"/>
+
+    <p>
+      This produces the following webpage:
+    </p>
+
+    <div class="code">
+      <div class="example-html">
+        <a class="forward" href="examples/webdoc/output1.html">
+          <div> </div>
+        </a>
+        <object type="text/html" data="examples/webdoc/output1.html">
+        </object>
+      </div>
+    </div>
+  </div><a name="processor"><h2>3. Create the Processor</h2></a><div class="step">
+    <p>
+      You will notice that only the page title and header are shown
+      this is because we have not done anything with the rest of the
+      input data.  There is one more thing to take care of before we
+      start producing interesting output.  The program must scan through
+      the input file and perform special actions when it sees
+      <em>contents</em> or <em>section</em> tags.  All other
+      tags must be copied.  The following code does this and is easily
+      extendible to handle new types of tags if you choose to add them.
+    </p>
+
+    <ws:code height="20em" download="true" href="examples/webdoc/processor.xpl" xmlns:ws="http://www.xmlpl.org/website"/>
+
+  </div><a name="contents"><h2>4. Create the Table of Contents</h2></a><div class="step">
+    <p>
+      Let's now create the table of contents.
+    </p>
+
+    <ws:code height="20em" download="true" href="examples/webdoc/contents.xpl" xmlns:ws="http://www.xmlpl.org/website"/>
+
+    <p>
+      Notice that we include the <em>curl</em> library and use the
+      <em>url_escape</em> so that our anchors are URL safe, i.e. with
+      out spaces or other URL special characters.
+    </p>
+
+    <p>
+      If you compile this program and process the input it should
+      produce the following output:
+    </p>
+
+    <div class="code">
+      <div class="example-html">
+        <a class="forward" href="examples/webdoc/output2.html">
+          <div> </div>
+        </a>
+        <object type="text/html" data="examples/webdoc/output2.html">
+        </object>
+      </div>
+    </div>
+  </div><a name="sections"><h2>5. Process sections</h2></a><div class="step">
+    <p>
+      Now we process the sections:
+    </p>
+
+    <ws:code height="20em" download="true" href="examples/webdoc/webdoc.xpl" xmlns:ws="http://www.xmlpl.org/website"/>
+
+    <p>
+      Several variables have been added to keep track of section
+      numbering.
+    </p>
+
+    <p>
+      This final version also adds the following
+      <a href="http://en.wikipedia.org/wiki/Cascading_Style_Sheets">style
+      sheet</a> to make the text a little easier on the eyes:
+    </p>
+
+    <ws:code download="true" href="examples/webdoc/style.css" xmlns:ws="http://www.xmlpl.org/website"/>
+  </div><a name="compile"><h2>6. Compile &amp; Process</h2></a><div class="step">
+    <p>
+      Again, compile the program and process the input with the
+      following commands:
+    </p>
+
+    <ws:code href="examples/webdoc/build_and_process.txt" xmlns:ws="http://www.xmlpl.org/website"/>
+
+    <p>
+      This should produce the following web page:
+    </p>
+
+    <div class="code">
+      <div class="example-html">
+        <a class="forward" href="examples/webdoc/output.html">
+          <div> </div>
+        </a>
+        <object type="text/html" data="examples/webdoc/output.html">
+        </object>
+      </div>
+    </div>
+  </div></body>

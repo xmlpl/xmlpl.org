@@ -1,0 +1,41 @@
+<body xmlns:ws="http://www.xmlpl.org/website">
+  <h1>XmlPL Licensing Overview</h1>
+
+  <p>
+    <ws:link sec="gpl">GPL</ws:link> for free.
+    <a href="http://www.opensource.org/licenses/bsd-license.php">BSD</a>
+    for a fee.
+  </p>
+
+  <p>
+    XmlPL is a business friendly Open-Source project.  For this reason we
+    provide <b>multiple licensing options</b>.
+  </p>
+
+  <p>
+   For the Open-Source community and those just curious we offer XmlPL under
+   the <ws:link sec="gpl">GNU Public License</ws:link>.  The consequence of
+   this is that any <b>published</b> software developed using XmlPL under
+   this license must also be licensed under the <ws:link sec="gpl">GNU Public
+   License</ws:link> which requires public disclosure of your source code.
+   This is the cost of "free software".
+  </p>
+
+  <p>
+    Like many software business we are funded by selling software and related
+    services such as support contracts and consulting.
+  </p>
+
+  <p>
+    For many businesses
+    sharing company source code with the world is not an option.  This makes
+    the <ws:link sec="gpl">GNU Public License</ws:link> undesirable.
+  </p>
+
+  <p>
+    For these reasons we also offer XmlPL with a <b>business friendly</b>
+    license, such as the BSD license, generally combined with a
+    <b>support agreement</b>.  For more information email
+    <ws:email address="info@xmlpl.org"/>.
+  </p>
+</body>

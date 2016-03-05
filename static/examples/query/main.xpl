@@ -1,0 +1,2 @@
+node[] main(document in) {
+}

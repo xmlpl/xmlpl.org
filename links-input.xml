@@ -1,0 +1,53 @@
+<links>
+  <section name="Related Projects">
+    <link title="SinaXe" href="http://www.sinaxe.org/">
+      A system for building XML editors and GUIs
+    </link>
+    <link title="XMLCereal" href="http://sf.net/projects/xmlcereal">
+      C++ framework for XML pull parsing and seralization
+    </link>
+    <link title="QEXO" href="http://www.gnu.org/software/qexo/">
+      The GNU Kawa implementation of XQuery
+    </link>
+    <link title="Saxon" href="http://saxon.sourceforge.net/">
+      The XSLT and XQuery Processor
+    </link>
+    <link title="Xalan" href="http://xml.apache.org/xalan/">
+      Apache's XSLT processor
+    </link>
+  </section>
+
+  <section name="Related Technologies">
+    <link title="XML" href="http://www.w3.org/XML/">
+      The eXtensible Markup Language
+    </link>
+    <link title="XPath" href="http://www.w3.org/TR/xpath">
+      XML Path Language Version 1.0
+    </link>
+    <link title="XQuery" href="http://www.w3.org/TR/xquery/">
+      An XML Query Language
+    </link>
+    <link title="XSLT" href="http://www.w3.org/TR/xslt">
+      The Extensible Stylesheet Language
+    </link>
+  </section>
+
+  <section name="Interesting Documents">
+    <link title="XQuery: Reinventing the Wheel?"
+      href="http://www.xmlportfolio.com/xquery.html"/>
+
+    <link title="XML Applications and Initiatives"
+      href="http://xml.coverpages.org/xmlApplications.html">
+      A list of XML based formats
+    </link>
+
+    <link title="Don't Invent XML Languages"
+      href="http://www.tbray.org/ongoing/When/200x/2006/01/08/No-New-XML-Languages">
+      I don't agree with this article.  It does not take XmlPL into account.
+      This page, for example, was create with an XML language I 'Invented' and
+      created an XmlPL translator for in about 5 minutes.
+    </link>
+  </section>
+
+
+</links>

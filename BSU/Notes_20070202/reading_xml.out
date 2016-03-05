@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root><root>
+  <child>Some Data</child>
+  <child>Some More Data</child>
+</root><root>
+  <child>Some Data</child>
+  <child>Some More Data</child>
+</root><root>
+  <child>Some Data</child>
+  <child>Some More Data</child>
+</root><persons>
+  <person username="JS1">
+    <name>John</name>
+    <family_name>Smith</family_name>
+  </person>
+  <person username="MI1">
+    <name>Morka</name>
+    <family_name>Ismincius</family_name>
+  </person>
+</persons></root>

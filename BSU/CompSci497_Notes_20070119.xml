@@ -1,0 +1,125 @@
+<html>
+  <head>
+    <style type="text/css" media="all">
+		  h1 {text-align: center; font-size: 22pt}
+		  h2 {font-size: 14pt}
+		  h3 {font-size: 12pt}
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="print.css" />
+	  <title>CompSci497 Lecture Notes January 19th, 2007</title>
+  </head>
+	<body>
+	  <h1>
+      CompSci497<br/>
+      Advanced XML Programming with XmlPL<br/>
+      Lecture Notes<br/>
+			Friday, January 19th, 2007
+    </h1>
+
+		<br/><br/>
+		<contents/>
+
+		<section name="A brief history: SGML, HTML, XML &amp; XHTML">
+		  <section name="SGML">
+			  <ul>
+				  <li>Standard Generalized Markup Language</li>
+					<li>Developed in the 60's</li>
+					<li>Created for long-term machine readable document storage.</li>
+					<li>Complicated syntax</li>
+				</ul>
+			</section>
+		  <section name="HTML">
+			  <ul>
+				  <li>Hyper-Text Markup Language</li>
+				  <li>First version appeared in 1993</li>
+					<li>Originally an application of SGML.  Later deviated from
+					SGML standard.</li>
+          <li>HTML is a standard maintained by the W3.org.  Specifications
+					can be found on their website.</li>
+			  </ul>
+			</section>
+		  <section name="XML">
+			  <ul>
+				  <li>First standard published in 1996 by the W3.org</li>
+					<li>Also an application of SGML</li>
+					<li>Designed as a simplified sub-set of SGML</li>
+					<li></li>
+					<li></li>
+			  </ul>
+			</section>
+		  <section name="XHTML">
+			  <ul>
+				  <li>Published as a recommendation by the W3.org in 2000</li>
+					<li>XHTML replaces HTML as the new Web standard</li>
+					<li>XHTML is a true application of XML</li>
+					<li>XHTML is stricter in what it allows but therefore easier
+					to parse.</li>
+			  </ul>
+			</section>
+		</section>
+		<section name="Data description languages, what are they good for?">
+		  <ul>
+			  <li>Sometimes called Metalanguages or Markup languages</li>
+				<li>Focus on the description of data rather than on the description
+				of computation.</li>
+				<li>Although DDLs are often terribly verbose for describing
+				computation, it is easy to "make up" new languages.</li>
+				<li>Parsing data is easy.  Unlike data structures in other languages
+				like C or Java</li>
+				<li>Data is easily interchangeable between various machines,
+				operating systems and programming languages</li>
+				<li>Data longevity.</li>
+				<li>Other languages: JASON, YAML, S-expressions</li>
+			</ul>
+		</section>
+		<section name="An introduction to XML.">
+		  <section name="Pros">
+		    <ul>
+				  <li>Both human and machine readable</li>
+			    <li>Fairly simple syntax.  (if you stay away from DTDs)</li>
+			    <li>Easy to parse.</li>
+			    <li>Widely supported</li>
+					<li>Hierarchical</li>
+					<li>Easy to describe common data structures such as
+					lists, trees and graphs.</li>
+					<li>Unicode support</li>
+				</ul>
+			</section>
+			<section name="Cons">
+		    <ul>
+			    <li>Can be verbose</li>
+			    <li>Some features left over from SGML are overly complicated.</li>
+			    <li>Can be difficult to map to non-hierarchical relation
+					structures such as databases.</li>
+			    <li></li>
+				</ul>
+			</section>
+
+			<section name="Basic Syntax">
+		    <ul>
+   			  <li>&lt;name attribute="value"&gt;content&lt;/name&gt;</li>
+					<li>One root element</li>
+					<li>Element children are: element, text, comment, processing
+					instruction</li>
+					<li>&lt;!-- Comment --&gt;</li>
+					<li>Short form element: &lt;element/&gt;</li>
+					<li>Special characters: &amp;, &lt;, &gt;, &apos; and &quot;</li>
+					<li>Entity references: &amp;amp; (&amp;), &amp;lt;(&lt;), &amp;gt;
+					(&gt;), etc.</li>
+					<li>Numerical character references: &amp;#169; (&#169;)</li>
+					<li><a href="http://www.w3.org/TR/REC-xml/">w3.org's
+					specification</a></li>
+				</ul>
+			</section>
+
+			<section name="XML Extensions">
+			  <ul>
+				  <li>Namespaces</li>
+				  <li>XPath</li>
+				  <li>XPointer</li>
+				  <li>XML Schema</li>
+				</ul>
+			</section>
+		</section>
+	</body>
+</html>

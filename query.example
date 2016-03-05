@@ -1,0 +1,69 @@
+<example xmlns:ws="http://www.xmlpl.org/website">
+  <intro>
+    <p>
+      This example demonstrates making a simple query on an XML document.
+      If you are familar with
+      <a href="http://wikipedia.org/wiki/XPath">XPath</a>
+      this will be very easy.
+    </p>
+  </intro>
+
+  <step name="data" title="Create XML data to be queried">
+    <p>
+      Here is the XML data that will be used in this example.
+    </p>
+
+    <ws:code download="true" href="examples/query/addressbook.xml"/>
+  </step>
+
+  <step name="main" title="Create main function for XML input">
+    <ws:code href="examples/query/main.xpl"/>
+
+    <p>
+      This demonstrates another possible <em>main</em> function signature.
+      The code declares <em>main</em> to output a stream of XML data and
+      read standard input as an XML document.
+    </p>
+  </step>
+
+  <step name="query" title="Do the query">
+    <p>
+      Next we select and output the <em>address</em> with <em>firstname</em>
+      attribute equal to <em>"Sherlock"</em> for output.
+    </p>
+
+    <ws:code download="true" href="examples/query/query.xpl"/>
+
+    <p>
+      XPath programmers will
+      notice a difference here.  XmlPL, like C used '==' for equality and
+      '=' for assignment unlike XPath where '=' is the equality operator.
+      Also, notice that <em>in</em> is a variable reference and not a path
+      step such as <em>addressbook</em> and <em>address</em>.
+    </p>
+  </step>
+
+  <step name="build" title="Build &amp; Run">
+    <p>
+      The following comands will build and run the program.
+    </p>
+
+    <ws:code href="examples/query/commands.txt"/>
+
+    <p>
+      This should be the output.
+    </p>
+
+    <ws:code href="examples/query/output.xml"/>
+
+    <p>
+      The odd indenting of the closing <em>&lt;/address&gt;</em> tag
+      is due to whitespace in the input file.  You can clean up the
+      output with a program such as
+      <a href="http://tidy.sourceforge.net/">tidy</a> using the following
+      command.
+    </p>
+
+    <ws:code href="examples/query/tidy.txt"/>
+  </step>
+</example>

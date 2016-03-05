@@ -1,0 +1,47 @@
+<example xmlns:ws="http://www.xmlpl.org/website">
+  <intro>
+    <p>
+      This is the classic
+      <a href="http://en.wikipedia.org/wiki/Hello_world_program">Hello World
+      program</a> in XmlPL.
+    </p>
+  </intro>
+
+  <step name="main" title="Create Main Function">
+    <p>
+      Like many languages, C, C++ and Java to name a few, XmlPL programs start
+      with a call to function <em>main</em>.  There are several allowed
+      functions signatures for <em>main</em> here we will use one of them.
+    </p>
+
+    <ws:code href="examples/hello/main.xpl"/>
+
+    <p>
+      This code declares that <em>main</em> will output a stream of
+      strings and has no arguments.
+    </p>
+  </step>
+
+  <step name="print" title="Print Hello World!">
+    <p>
+      In the previous step we declared that <em>main</em> would output a string
+      of streams.  In XmlPL the default behavior is to output to the current
+      stream.
+    </p>
+
+    <ws:code download="true" href="examples/hello/hello.xpl"/>
+
+    <p>
+      By adding the string expression the program is complete.  <em>\n</em> is
+      standard notation for the end of line character.
+    </p>
+  </step>
+
+  <step name="compile" title="Compile &amp; Run">
+    <p>
+      The following commands will compile and execute the program.
+    </p>
+
+    <ws:code href="examples/hello/commands.txt"/>
+  </step>
+</example>

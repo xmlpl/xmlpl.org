@@ -1,0 +1,2 @@
+$ xmlplcc query.xml
+$ ./query < addressbook.xml

@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <style type="text/css" media="all">
+      h1 {text-align: center; font-size: 22pt}
+      h2 {font-size: 14pt}
+      h3 {font-size: 12pt}
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <title>CompSci497 Lecture Notes February 9th, 2007</title>
+  </head>
+  <body>
+    <h1>
+      CompSci497<br/>
+      Advanced XML Programming with XmlPL<br/>
+      Lecture Notes<br/>
+      Friday, February 9th, 2007
+    </h1>
+
+    <br/><br/>
+    <contents/>
+
+    <section name="Interfacing with C/C++">
+      <ul>
+        <li>The native language</li>
+        <li>__native__ block</li>
+        <li>Accessing XmlPL variables from C/C++</li>
+        <li>Calling XmlPL functions from C/C++</li>
+        <li>XmlPL C++ datatypes</li>
+        <li>Providing XML data to XmlPL via C++</li>
+        <li>Using XML data produced by XmlPL</li>
+      </ul>
+    </section>
+    <section name="Extending XmlPL">
+      <ul>
+        <li>Importing libraries</li>
+        <li>Creating libraries</li>
+        <li>Compiling libraries</li>
+        <li>Wrapping C/C++ libraries for XmlPL</li>
+        <li>Base 64 example</li>
+      </ul>
+    </section>
+    <section name="Programming Project Ideas">
+      <ul>
+        <li>Reuters example</li>
+        <li>News Feed Aggregator</li>
+        <li>Bittorrent Search Aggregator</li>
+        <li>Simplified DocBook</li>
+        <li>Generic Object Loader</li>
+        <li>Broadcatch System</li>
+        <li>Simplified Web Form Generator</li>
+        <li>iptables Configuration</li>
+        <li>Shell Pipe Graph Builder</li>
+        <li>Distributed Execution Using ssh/netcat.</li>
+        <li>XML Wrapped C++/Java Classes (round trip UML, object
+        analysis</li>
+        <li>C-callgraph to Kivio XML</li>
+        <li>Better Configuration File</li>
+        <li>XML Format Converter</li>
+        <li>Experimental Language</li>
+        <li>Web Application</li>
+      </ul>
+    </section>
+  </body>
+</html>

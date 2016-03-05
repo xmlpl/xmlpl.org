@@ -1,0 +1,16 @@
+a:link, a:visited {
+ color: black;
+ text-decoration: none;
+}
+
+a.link:link, a.link:visited {
+  color: #520;
+	background: transparent;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+a.link:after {
+ content: " (" attr(href) ") ";
+ font-size: 90%;
+}

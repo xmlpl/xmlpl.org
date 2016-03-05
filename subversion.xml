@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<body><h1>Building From Subversion</h1><h1>Contents</h1><ol><li><a href="#Introduction">Introduction</a></li><li><a href="#Prerequisites">Prerequisites</a></li><li><a href="#Check Out the Repository">Check Out the Repository</a></li><li><a href="#Build &amp; Install the Packages">Build &amp; Install the Packages</a></li></ol><a name="Introduction"><h1>1) Introduction</h1></a><p>
+		  Building and installing from Subversion is perhaps the most difficult
+			method of installing XmlPL.  You may first want to consider the other
+			options listed on the <ws:link sec="download" xmlns:ws="http://www.xmlpl.org/website"/> page.  However, there
+			are advantages.  If want access to the most bleeding edge version
+			of XmlPL this is the way to get it.  Also, if you want to contribute
+			to the project you should probably start here.
+		</p><p>
+		  To build from the <a href="http://www.subversion.org/">Subversion</a>
+			repository you must have a Subversion client installed on you system.
+		</p><a name="Prerequisites"><h1>2) Prerequisites</h1></a><p>
+		  In order to build XmlPL you will need to install the same prerequisites
+			as are required for the XmlPL builder install method.  See
+			<ws:link sec="install" anchor="Prerequisites" xmlns:ws="http://www.xmlpl.org/website"/> for more information.
+		</p><a name="Check Out the Repository"><h1>3) Check Out the Repository</h1></a><p>
+		  In addition to the XmlPL repository, you will also need the
+			BasicUtils library from
+			the <a href="http://sourceforge.net/projects/xmlcereal">XMLCereal</a>
+			project.  You can attain these with the following commands.
+		</p><ws:code xmlns:ws="http://www.xmlpl.org/website">
+mkdir xmlpl
+cd xmlpl
+svn co https://xmlcereal.svn.sourceforge.net/svnroot/xmlcereal/trunk/BasicUtils libbasicutils
+svn co https://xmlpl.svn.sourceforge.net/svnroot/xmlpl/trunk .
+		</ws:code><a name="Build &amp; Install the Packages"><h1>4) Build &amp; Install the Packages</h1></a><p>
+		  The XmlPL compiler tools are made up of a number of packages.  You must
+			build and install these in the following order.
+	  </p><ul>
+		  <li>libbasicutils</li>
+			<li>libantlr</li>
+			<li>libxmlpl_cpp_runtime</li>
+			<li>xmlplcc</li>
+			<li>libxmlpl_cpp_standard</li>
+			<li>xmlpl</li>
+		</ul><p>
+		  The packages can be built with the following commands.
+		</p><ws:code xmlns:ws="http://www.xmlpl.org/website">
+cd &lt;package directory&gt;
+./autogen.sh
+./configure --prefix &lt;install path&gt;
+make
+make install
+cd ..
+		</ws:code><p>
+		  If you want to install directly to your system paths then you
+			may omit the <span class="inline">--prefix &lt;install path&gt;</span>
+			option.  Otherwise, you should ensure that <span class="inline">&lt;install
+			path&gt;</span> is listed in your <span class="inline">PATH</span>
+			environment variable so that the other packages can find their
+			installed dependencies. You may also need to set your
+			<span class="inline">LD_LIBRARY_PATH</span>.  You can use the following
+			commands to achieve this.
+		</p><ws:code xmlns:ws="http://www.xmlpl.org/website">
+export PATH=$PATH:&lt;install path&gt;/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH=&lt;install path&gt;/lib
+		</ws:code><p>
+		  Of course you must replace <span class="inline">&lt;install
+			path&gt;</span> with your actual install path.
+		</p></body>

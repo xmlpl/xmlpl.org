@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns:xi="http://www.w3.org/2001/XInclude">
+  <head>
+    <title>XmlPL - Implicit Type Coercion</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      .false {color:red}
+      .true {color:green}
+      .big-table table {font-size:10pt}
+      .big-table td {text-align:center}
+    </style>
+  </head>
+  <body>
+    <h1>XmlPL - Implicit Type Coercion</h1>
+
+    <p>
+      The table below lists XmlPL's implicit type conversions.
+      Entries represent casts from the type in the left-most
+      column, the <em>from type</em> to the type in the top-most row, the
+      <em>to type</em>.
+    </p>
+
+    <p>
+      If the table entry is <span class="false">false</span> then a
+      cast from the <em>from type</em> to the <em>to type</em> is not
+      allowed.  If a <span class="true">true</span> value or another
+      type name is present then an implicit type coercion
+      <b>will</b> be performed by the compiler.  If another type is
+      listed this indicates that the implicit type coercion will be
+      performed in more than one step.
+    </p>
+
+    <p>
+      Some type names in the table are abbreviated.  Their translations
+      are listed below.
+    </p>
+    <table>
+      <tr>
+        <th>doc</th><td>document</td>
+        <th>elem</th><td>element</td>
+      </tr>
+      <tr>
+        <th>attr</th><td>attribute</td>
+        <th>comm</th><td>comment</td>
+      </tr>
+      <tr>
+        <th>pre</th><td>prefix</td>
+        <th>str</th><td>string</td>
+      </tr>
+      <tr>
+        <th>int</th><td>integer</td>
+        <th>bool</th><td>boolean</td>
+      </tr>
+      <tr>
+        <th>seq</th><td>sequence</td>
+      </tr>
+    </table>
+
+    <div class="big-table">
+      <xi:include href="type_cast_table.xml"/>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+<section  xmlns:ws="http://www.xmlpl.org/website"
+          xmlns:xi="http://www.w3.org/2001/XInclude"
+          name="Installing the Debian Binary Packages">
+
+  <section name="Introduction">
+    <p>
+    This method of installing the XmlPL compiler tools is much easier
+    if you are running a
+    <a href="http://www.debian.org">Debian</a> based operating
+    system such as <a href="http://www.ubuntu.com/">Ubuntu</a> or
+    <a href="http://www.knoppix.org/">Knoppix</a>.
+    You must have root access to your system to install packages.
+    </p>
+  </section>
+
+  <section name="Install XmlPL.org public key">
+    <p>
+      The following command will download XmlPL.org's public keys
+      and install them in apt-get.  This is necessary to avoid warnings
+      when installing XmlPL packages.
+    </p>
+    <ws:code>
+wget http://www.xmlpl.org/xmlpl_pub_key.asc -O - | sudo apt-key add -
+    </ws:code>
+		</section>
+
+  <section name="Add XmlPL package repository">
+    <p>
+      Edit /etc/apt/sources.list and add the following lines to the end of
+      the file.
+    </p>
+    <ws:code>
+deb http://www.xmlpl.org/debian unstable/
+deb http://www.xmlpl.org/debian stable/
+    </ws:code>
+		</section>
+
+  <section name="Update package list and install">
+    <p>
+      You only need to do the first two steps once.  Afterwards, you
+      can get the latest version of XmlPL anytime by running the following
+      commands.
+    </p>
+    <ws:code>
+sudo apt-get update
+sudo apt-get install xmlpl
+    </ws:code>
+  </section>
+
+  <section name="Another way">
+    <p>
+      Alternatively, if you aren't comfortable with the above procedure you
+      can download and install the .deb files from
+      <a href="http://www.xmlpl.org/unstable/">http://www.xmlpl.org/unstable/
+      </a> and install them with <ws:code>dpkg -i &lt;package file&gt;
+      </ws:code>.
+    </p>
+  </section>
+</section>

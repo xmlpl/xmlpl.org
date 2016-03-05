@@ -1,0 +1,77 @@
+<body xmlns:ws="http://www.xmlpl.org/website">
+  <h1>What is XmlPL?</h1>
+  <p>
+    XmlPL is a programming language which provides built-in
+    features for <a href="http://en.wikipedia.org/wiki/Xml">XML</a>
+    processing integrated with a C-like syntax.
+    Among these features are XML path expressions and XML
+    statements.
+  </p>
+
+  <p>
+    XmlPL grew out of frustration with the inefficiencies and over
+    complicated nature of existing methods for XML manipulation such
+    as <a href="http://www.w3.org/TR/xslt">XSLT</a>, <a
+    href="http://www.w3.org/TR/xquery/">XQuery</a>, and API
+    approaches like <a href="http://www.w3.org/DOM/">DOM</a> and <a
+    href="http://www.saxproject.org/">SAX</a>.  XmlPL overcomes many
+    of the problems with these approaches by treating XML as a native
+    data type, integrating path expressions with a C-like syntax and
+    compiling rather than interpreting to create an intuitive and
+    efficient XML processing language.
+  </p>
+ 
+  <p>
+    If you know
+    <a href="http://en.wikipedia.org/wiki/Java_programming_language">Java</a>,
+    <a href="http://en.wikipedia.org/wiki/C_programming_language">C</a> or
+    <a href="http://en.wikipedia.org/wiki/C%2B%2B">C++</a>
+    and <a href="http://www.w3.org/TR/xpath">XPath</a>
+    then XmlPL is very easy to learn.  Since XML is a native
+    data type it can be processed more naturally and efficiently
+    using XML path expressions and inline XML.
+  </p>
+
+  <p>
+    XmlPL is not intended to be a general purpose
+    language.  It does aim to be an efficient language for
+    general purpose transformation, interpretation,
+    generation and augmentation of XML data.  XmlPL may also
+    be used as an interface between XML data and other
+    programing languages.
+  </p>
+
+  <h1>Status</h1>
+  <p>
+    XmlPL is currently in the <b>alpha</b> release stage.  This means that
+    there are some known bugs and likely some unknown bugs.  However, XmlPL has
+    been in development and real world use since 2003.  I hope you will find
+    it useful.
+  </p>
+
+  <p>
+    If you run in to
+    problems please email <ws:email address="bugs@xmlpl.org"/> with an
+    explanation of your problem, the machine and operating system
+    use are using, the XmlPL code you are compiling and any error messages
+    you encounter.
+  </p>
+
+  <h1>Features</h1>
+  <ul>
+   <li>
+     <a href="http://www.opensource.org/">Open-Source</a> software.
+     <ws:link sec="gpl">GPL</ws:link> for free.
+     <a href="http://www.opensource.org/licenses/bsd-license.php">BSD</a>
+     for a fee.
+   </li>
+   <li>Supports inline XML data</li>
+   <li>Uses an XML path language, similar to XPath, integrated with a
+     C like syntax</li>
+   <li>Provides advanced features for XML stream manipulation</li>
+   <li>Gives the developer control over XML DOM memory usage</li>
+   <li>Garbage collected</li>
+   <li>Compiles to C++ for high portability and fast execution</li>
+   <li>Easily extended with libraries and native code blocks</li>
+  </ul>
+</body>
